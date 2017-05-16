@@ -9,28 +9,18 @@ import com.mygdx.game.view.screens.OptionsScreen;
 /**
  * Created by Kacper on 2017-05-15.
  */
-public class ScreenManager {
+class ScreenManager {
     private MainMenuScreen mainMenuScreen;
     private GameLevelScreen gameLevelScreen;
     private OptionsScreen optionsScreen;
     private Game game;
     private ModelManager model;
 
-    public ScreenManager(Game game, ModelManager model){
+    ScreenManager(Game game, ModelManager model){
         this.game = game;
         this.model = model;
     }
 
-    public MainMenuScreen getMainMenuScreen() {
-        if(mainMenuScreen == null)
-            mainMenuScreen = new MainMenuScreen(game, model);
-        return mainMenuScreen;
-    }
-
-    public void setMainMenuScreen(MainMenuScreen mainMenuScreen) {
-        if(this.mainMenuScreen == null)
-            this.mainMenuScreen = mainMenuScreen;
-    }
 
     public void changeScreen(String which){
         if(which.equals("mainMenu")){
@@ -42,18 +32,28 @@ public class ScreenManager {
         }
     }
 
-    public GameLevelScreen getGameLevelScreen() {
+    private MainMenuScreen getMainMenuScreen() {
+        if(mainMenuScreen == null)
+            mainMenuScreen = new MainMenuScreen(game, model);
+        return mainMenuScreen;
+    }
+
+    public void setMainMenuScreen(MainMenuScreen mainMenuScreen) {
+        if(this.mainMenuScreen == null)
+            this.mainMenuScreen = mainMenuScreen;
+    }
+
+    private GameLevelScreen getGameLevelScreen() {
         if(gameLevelScreen == null)
             gameLevelScreen = new GameLevelScreen(game, model);
         return gameLevelScreen;
     }
-
     public void setGameLevelScreen(GameLevelScreen gameLevelScreen) {
         if(this.gameLevelScreen == null)
             this.gameLevelScreen = gameLevelScreen;
     }
 
-    public OptionsScreen getOptionsScreen() {
+    private OptionsScreen getOptionsScreen() {
         if(optionsScreen == null)
             optionsScreen = new OptionsScreen(game, model);
         return optionsScreen;
