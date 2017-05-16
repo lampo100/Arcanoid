@@ -22,14 +22,19 @@ public class ModelManager {
     private Skin gameSkin;
     private WorldManager worldManager;
 
+
+
     public void initializeModelManager(){
         gameSkin = new Skin(Gdx.files.internal("quantum-horizon-ui.json"));
-        mainMenuModel = new MainMenuModel(gameSkin);
-        gameLevelModel = new GameLevelModel(gameSkin);
-        optionsModel = new OptionsModel(gameSkin);
+        mainMenuModel = new MainMenuModel(this);
+        gameLevelModel = new GameLevelModel(this);
+        optionsModel = new OptionsModel(this);
         worldManager = new WorldManager();
     }
 
+    public Skin getGameSkin() {
+        return gameSkin;
+    }
 
     /**
      *

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.mygdx.game.model.ModelManager;
 
 import java.util.List;
 
@@ -22,10 +23,10 @@ public class MainMenuModel{
     private TextButton optionsButton;
     private TextButton quitButton;
     private Image background;
-    Skin screenSkin;
+    private ModelManager modelManager;
 
-    public MainMenuModel(Skin skin){
-        screenSkin = skin;
+    public MainMenuModel(ModelManager modelManager){
+        this.modelManager = modelManager;
         createAndPrepareTitle();
         createAndPreparePlayButton();
         createAndPrepareOptionsButton();
@@ -43,7 +44,7 @@ public class MainMenuModel{
     }
 
     private void createAndPrepareTitle(){
-        title = new Label("ArcanoiD", screenSkin);
+        title = new Label("ArcanoiD", modelManager.getGameSkin());
         title.setAlignment(Align.center);
         title.setY(Gdx.graphics.getHeight()*2/3);
         title.setWidth(Gdx.graphics.getWidth());
@@ -51,14 +52,14 @@ public class MainMenuModel{
     }
 
     private void createAndPreparePlayButton(){
-        playButton = new TextButton("Play", screenSkin, "default");
+        playButton = new TextButton("Play", modelManager.getGameSkin(), "default");
         playButton.setWidth(Gdx.graphics.getWidth()/2);
         playButton.setPosition(Gdx.graphics.getWidth()/2-playButton.getWidth()/2,Gdx.graphics.getHeight()/2-playButton.getHeight()/2);
         playButton.setName("playButton");
     }
 
     private void createAndPrepareOptionsButton(){
-        optionsButton = new TextButton("Options", screenSkin, "default");
+        optionsButton = new TextButton("Options", modelManager.getGameSkin(), "default");
         optionsButton.setWidth(Gdx.graphics.getWidth()/2);
         optionsButton.setPosition(Gdx.graphics.getWidth()/2-optionsButton.getWidth()/2,Gdx.graphics.getHeight()/2 - Gdx.graphics.getHeight()/10 - optionsButton.getHeight()/2);
         optionsButton.setName("optionsButton");
@@ -70,7 +71,7 @@ public class MainMenuModel{
     }
 
     private void createAndPrepareQuitButton(){
-        quitButton = new TextButton("Quit", screenSkin, "default");
+        quitButton = new TextButton("Quit", modelManager.getGameSkin(), "default");
         quitButton.setWidth(Gdx.graphics.getWidth()/2);
         quitButton.setPosition(Gdx.graphics.getWidth()/2 - quitButton.getWidth()/2, Gdx.graphics.getHeight()/2 - Gdx.graphics.getHeight()/5 - quitButton.getHeight()/2);
         quitButton.setName("quitButton");

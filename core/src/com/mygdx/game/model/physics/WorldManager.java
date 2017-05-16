@@ -24,10 +24,6 @@ public class WorldManager {
         physicsWorld.setContactListener(new ContactListener());
     }
 
-    public void dispose(){
-        physicsWorld.dispose();
-    }
-
     public void createGameLevelBody(GameLevelModel gameLevel){
 
     }
@@ -46,6 +42,10 @@ public class WorldManager {
 
     public void createWallBody(WallObject wall){
 
+    }
+
+    public void dispose(){
+        physicsWorld.dispose();
     }
 
 }

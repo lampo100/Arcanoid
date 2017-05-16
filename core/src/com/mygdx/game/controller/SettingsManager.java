@@ -5,7 +5,7 @@ import com.mygdx.game.model.Settings;
 /**
  * Created by Kacper on 2017-05-16.
  */
-class SettingsManager {
+public class SettingsManager {
     private Settings setting;
 
     public void muteGame(){

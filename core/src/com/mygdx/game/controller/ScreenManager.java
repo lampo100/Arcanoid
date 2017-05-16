@@ -9,7 +9,7 @@ import com.mygdx.game.view.screens.OptionsScreen;
 /**
  * Created by Kacper on 2017-05-15.
  */
-class ScreenManager {
+public class ScreenManager {
     private MainMenuScreen mainMenuScreen;
     private GameLevelScreen gameLevelScreen;
     private OptionsScreen optionsScreen;
