@@ -2,6 +2,7 @@ package com.mygdx.game.controller;
 
 import com.badlogic.gdx.Game;
 import com.mygdx.game.model.ModelManager;
+import com.mygdx.game.view.ArcanoidGame;
 
 /**
  * <h1>Controller</h1>
@@ -11,7 +12,7 @@ import com.mygdx.game.model.ModelManager;
  */
 public class Controller {
     private ModelManager model;
-    private Game game;
+    private ArcanoidGame game;
     private SettingsManager settingsManager;
     private ScreenManager screenManager;
 
@@ -19,13 +20,14 @@ public class Controller {
         this.model = model;
     }
 
-    public void setGame(Game game){
+    public void setGame(ArcanoidGame game){
         this.game = game;
     }
 
     public void createManagers(){
         screenManager = new ScreenManager(game, model);
         settingsManager = new SettingsManager();
+        System.out.println("done");
     }
 
     public ScreenManager getScreenManager() {
@@ -37,7 +39,7 @@ public class Controller {
     }
 
     public void dispose(){
-
+        settingsManager.saveSettings();
     }
 
 }

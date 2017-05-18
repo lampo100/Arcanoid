@@ -17,11 +17,12 @@ import java.util.List;
  * Created by Kacper on 2017-05-14.
  */
 public class GameLevelScreen implements Screen {
-    private Game game;
+    private ArcanoidGame game;
     private Stage gameLevelStage;
     private List<Actor> actors;
+    private int level;
 
-    public GameLevelScreen(Game game, ModelManager model){
+    public GameLevelScreen(ArcanoidGame game, ModelManager model){
         super();
         initializeAttributes(game);
         fetchActorsFromModel();
@@ -29,13 +30,13 @@ public class GameLevelScreen implements Screen {
         gameLevelStage.addListener(new GameLevelListener(game));
     }
 
-    private void initializeAttributes(Game game){
+    private void initializeAttributes(ArcanoidGame game){
         gameLevelStage = new Stage(new ScreenViewport());
         this.game = game;
     }
 
     private void fetchActorsFromModel(){
-        actors = ((ArcanoidGame)game).getModel().getActorsFromScreen("GameLevelScreen");
+        actors = game.getModel().getActorsFromScreen("GameLevelScreen");
     }
 
     private void addActorsToStage(){

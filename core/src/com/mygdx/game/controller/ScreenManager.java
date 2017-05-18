@@ -2,6 +2,7 @@ package com.mygdx.game.controller;
 
 import com.badlogic.gdx.Game;
 import com.mygdx.game.model.ModelManager;
+import com.mygdx.game.view.ArcanoidGame;
 import com.mygdx.game.view.screens.GameLevelScreen;
 import com.mygdx.game.view.screens.MainMenuScreen;
 import com.mygdx.game.view.screens.OptionsScreen;
@@ -13,10 +14,10 @@ public class ScreenManager {
     private MainMenuScreen mainMenuScreen;
     private GameLevelScreen gameLevelScreen;
     private OptionsScreen optionsScreen;
-    private Game game;
+    private ArcanoidGame game;
     private ModelManager model;
 
-    ScreenManager(Game game, ModelManager model){
+    ScreenManager(ArcanoidGame game, ModelManager model){
         this.game = game;
         this.model = model;
     }

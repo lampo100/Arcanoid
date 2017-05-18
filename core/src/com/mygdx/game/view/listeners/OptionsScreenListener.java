@@ -26,7 +26,7 @@ public class OptionsScreenListener extends InputListener{
             System.out.println("Changing to MainMenu");
             ((ArcanoidGame)game).getController().getScreenManager().changeScreen("mainMenu");
         }else if(actor.getName().equals("muteButton")){
-            ((ArcanoidGame)game).getController().getSettingsManager().muteGame();
+            ((ArcanoidGame)game).getController().getSettingsManager().changeMuteSetting();
         }
     }
 

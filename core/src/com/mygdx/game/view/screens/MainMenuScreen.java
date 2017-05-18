@@ -18,23 +18,23 @@ import java.util.List;
  */
 public class MainMenuScreen implements Screen {
     private Stage mainMenuStage;
-    private Game game;
+    private ArcanoidGame game;
     private List<Actor> actors;
 
-    public MainMenuScreen(Game game, ModelManager model){
+    public MainMenuScreen(ArcanoidGame game, ModelManager model){
         super();
         initializeAttributes(game);
         fetchActorsFromModel();
         addActorsToStage();
     }
 
-    private void initializeAttributes(Game game){
+    private void initializeAttributes(ArcanoidGame game){
         mainMenuStage = new Stage(new ScreenViewport());
         this.game = game;
     }
 
     private void fetchActorsFromModel(){
-        actors = ((ArcanoidGame)game).getModel().getActorsFromScreen("MainMenuScreen");
+        actors = game.getModel().getActorsFromScreen("MainMenuScreen");
     }
 
     private void addActorsToStage(){

@@ -31,7 +31,6 @@ public class GameLevelModel {
     public GameLevelModel(ModelManager model){
         modelManager = model;
         createAndPrepareScore();
-        //loadBricksPositions(0);
     }
 
     public void getActors(List<Actor> actors){

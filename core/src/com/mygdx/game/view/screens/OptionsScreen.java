@@ -19,24 +19,24 @@ import java.util.List;
  * @author Kacper Kamiński
  */
 public class OptionsScreen implements Screen {
-    private Game game;
+    private ArcanoidGame game;
     private Stage optionsStage;
     private List<Actor> actors;
 
-    public OptionsScreen(Game game, ModelManager model){
+    public OptionsScreen(ArcanoidGame game, ModelManager model){
         super();
         initializeAttributes(game);
         fetchActorsFromModel();
         addActorsToStage();
     }
 
-    private void initializeAttributes(Game game){
+    private void initializeAttributes(ArcanoidGame game){
         optionsStage = new Stage(new ScreenViewport());
         this.game = game;
     }
 
     private void fetchActorsFromModel(){
-        actors = ((ArcanoidGame)game).getModel().getActorsFromScreen("OptionsScreen");
+        actors = game.getModel().getActorsFromScreen("OptionsScreen");
     }
 
     private void addActorsToStage(){
