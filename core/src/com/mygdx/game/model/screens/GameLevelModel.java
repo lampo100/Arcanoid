@@ -11,7 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.model.ModelManager;
+import com.mygdx.game.model.objects.BallObject;
 import com.mygdx.game.model.objects.BrickObject;
+import com.mygdx.game.model.objects.PaddleObject;
 
 import java.io.File;
 import java.net.Inet4Address;
@@ -25,17 +27,25 @@ public class GameLevelModel {
     private Label score;
     private int level = 0;
     private ModelManager modelManager;
+
     private List<BrickObject> bricks = new LinkedList<BrickObject>();
     private List<Vector2> bricksPositions = new LinkedList<Vector2>();
+
+    private PaddleObject paddle;
+    private BallObject ball;
+
 
     public GameLevelModel(ModelManager model){
         modelManager = model;
         createAndPrepareScore();
+        createAndPreparePaddle();
     }
 
     public void getActors(List<Actor> actors){
         actors.clear();
+        modelManager.getWorldManager().updateModelObjectsPositions();
         actors.add(score);
+        actors.add(paddle);
     }
 
     private void createAndPrepareScore(){
@@ -47,7 +57,30 @@ public class GameLevelModel {
         score.setTouchable(Touchable.disabled);
     }
 
-    private void loadBricksPositions(int level){
+    private void createAndPreparePaddle(){
+        paddle = new PaddleObject();
+        paddle.setWidth(120f);
+        paddle.setHeight(10f);
+        paddle.setName("paddleActor");
+    }
+
+    public int getLevel(){return level;}
+
+    public List<BrickObject> getBricks() {
+        return bricks;
+    }
+
+    public PaddleObject getPaddle() {
+        return paddle;
+    }
+
+    public BallObject getBall() {
+        return ball;
+    }
+
+    //TODO encapsulate these loading methods into another class(do the same for Settings and SettingsManager)
+
+    public void loadBricksPositions(){
         Json jsonParser = new Json();
         String jsonString = readJsonFromFile("level" + Integer.toString(level) + ".json");
         bricksPositions.clear();

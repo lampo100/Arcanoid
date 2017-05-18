@@ -11,22 +11,23 @@ import com.mygdx.game.view.ArcanoidGame;
  * Created by Kacper on 2017-05-15.
  */
 public class GameLevelListener extends InputListener{
-    private Game game;
+    private ArcanoidGame game;
 
-    public GameLevelListener(Game game){
+    public GameLevelListener(ArcanoidGame game){
             super();
             this.game = game;
     }
 
     @Override
     public boolean mouseMoved(InputEvent event, float x, float y) {
-        return false;
+        game.getModel().getWorldManager().movePadle(x);
+        return true;
     }
 
     @Override
     public boolean keyUp(InputEvent event, int keycode) {
         if(keycode == Input.Keys.ESCAPE)
-            ((ArcanoidGame)game).getController().getScreenManager().changeScreen("mainMenu");
+            game.getController().getScreenManager().changeScreen("mainMenu");
         return true;
     }
 }

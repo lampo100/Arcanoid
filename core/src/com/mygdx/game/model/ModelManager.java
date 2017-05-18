@@ -27,9 +27,9 @@ public class ModelManager {
     public void initializeModelManager(){
         gameSkin = new Skin(Gdx.files.internal("quantum-horizon-ui.json"));
         mainMenuModel = new MainMenuModel(this);
+        worldManager = new WorldManager();
         gameLevelModel = new GameLevelModel(this);
         optionsModel = new OptionsModel(this);
-        worldManager = new WorldManager();
     }
 
     public Skin getGameSkin() {
@@ -60,6 +60,8 @@ public class ModelManager {
     public void createPhysicalGameLevel(){
         worldManager.createGameLevelBody(gameLevelModel);
     }
+
+    public WorldManager getWorldManager(){return worldManager;}
 
     public void dispose(){
         gameSkin.dispose();

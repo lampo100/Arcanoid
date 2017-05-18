@@ -4,6 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -20,11 +22,13 @@ public class GameLevelScreen implements Screen {
     private ArcanoidGame game;
     private Stage gameLevelStage;
     private List<Actor> actors;
-    private int level;
+    private Box2DDebugRenderer debuger = new Box2DDebugRenderer();
+    private SpriteBatch batch = new SpriteBatch();
 
     public GameLevelScreen(ArcanoidGame game, ModelManager model){
         super();
         initializeAttributes(game);
+        game.getModel().createPhysicalGameLevel();
         fetchActorsFromModel();
         addActorsToStage();
         gameLevelStage.addListener(new GameLevelListener(game));
@@ -52,9 +56,12 @@ public class GameLevelScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        game.getModel().getWorldManager().stepPhysicsWorld();
+        game.getModel().getWorldManager().updateModelObjectsPositions();
         clearBlack();
         gameLevelStage.act();
         gameLevelStage.draw();
+        debuger.render(game.getModel().getWorldManager().getWorld(), batch.getProjectionMatrix().cpy());
     }
 
     private void clearBlack(){

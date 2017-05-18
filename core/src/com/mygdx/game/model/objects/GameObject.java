@@ -10,12 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  * Created by Kacper on 2017-05-14.
  */
 public class GameObject extends Actor {
-    protected ShapeRenderer shapeRenderer;
+    protected ShapeRenderer shapeRenderer = new ShapeRenderer();
     protected Body physicalBody;
 
-    public GameObject() {
-        super();
-    }
 
     public Vector2 getPosition(){
         return new Vector2(this.getX(), this.getY());
