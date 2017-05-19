@@ -281,7 +281,24 @@ public class WorldManager {
         ((Actor)body.getUserData()).setPosition(newX, newY);
     }
 
-    public void stepPhysicsWorld(){physicsWorld.step(1f/60f, 6, 2);}
+    public void stepPhysicsWorld(){
+        physicsWorld.step(1f/60f, 6, 2);
+        removeDeadBodies();
+    }
+
+    private void removeDeadBodies(){
+        Array<Body> bodies = new Array<Body>();
+        physicsWorld.getBodies(bodies);
+        for(Body body: bodies)
+            if(bodyIsDead(body))
+                body.setActive(false);
+    }
+
+    private boolean bodyIsDead(Body body){
+        try{
+            return ((GameObject)body.getUserData()).isDead();
+        }catch(NullPointerException e){return false;}
+    }
 
     public void dispose(){
         physicsWorld.dispose();

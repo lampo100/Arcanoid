@@ -9,17 +9,21 @@ import com.mygdx.game.model.objects.GameObject;
 public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactListener {
     @Override
     public void beginContact(Contact contact) {
-        System.out.print("Contact Made: ");
         Body firstBody = contact.getFixtureA().getBody();
         Body secondBody = contact.getFixtureB().getBody();
         String firstName = getNameFromBody(firstBody);
         String secondName = getNameFromBody(secondBody);
-        System.out.println(firstName +": " + secondName);
         if(firstName.equals("floor")){
             ((GameObject)secondBody.getUserData()).setDead(true);
         }
-        if(secondName.equals("floor"))
+        if(secondName.equals("floor")) {
+            ((GameObject) firstBody.getUserData()).setDead(true);
+        }
+        if(firstName.equals("brick")){
             ((GameObject)firstBody.getUserData()).setDead(true);
+        }else if(secondName.equals("brick")){
+            ((GameObject)secondBody.getUserData()).setDead(true);
+        }
     }
 
     private String getNameFromBody(Body body){
