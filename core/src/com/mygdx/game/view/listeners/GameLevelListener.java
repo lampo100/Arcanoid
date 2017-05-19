@@ -1,10 +1,8 @@
 package com.mygdx.game.view.listeners;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.mygdx.game.model.ModelManager;
 import com.mygdx.game.view.ArcanoidGame;
 
 /**
@@ -20,7 +18,7 @@ public class GameLevelListener extends InputListener{
 
     @Override
     public boolean mouseMoved(InputEvent event, float x, float y) {
-        game.getModel().getWorldManager().movePadle(x);
+        game.getModel().getWorldManager().movePaddle(x);
         return true;
     }
 
@@ -28,6 +26,10 @@ public class GameLevelListener extends InputListener{
     public boolean keyUp(InputEvent event, int keycode) {
         if(keycode == Input.Keys.ESCAPE)
             game.getController().getScreenManager().changeScreen("mainMenu");
+        if(keycode == Input.Keys.Q)
+            game.getModel().getGameLevelModel().getPaddle().setColor(0.78f, 0.3f, 0.1f, 1);
+        if(keycode == Input.Keys.Z)
+            game.getModel().getGameLevelModel().getPaddle().setColor(0.99f, 0.37f, 0.67f, 1);
         return true;
     }
 }

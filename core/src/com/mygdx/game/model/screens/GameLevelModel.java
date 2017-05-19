@@ -14,6 +14,7 @@ import com.mygdx.game.model.ModelManager;
 import com.mygdx.game.model.objects.BallObject;
 import com.mygdx.game.model.objects.BrickObject;
 import com.mygdx.game.model.objects.PaddleObject;
+import com.mygdx.game.model.objects.WallObject;
 
 import java.io.File;
 import java.net.Inet4Address;
@@ -33,12 +34,15 @@ public class GameLevelModel {
 
     private PaddleObject paddle;
     private BallObject ball;
+    private WallObject lefWall, rightWall, ceiling;
 
 
     public GameLevelModel(ModelManager model){
         modelManager = model;
         createAndPrepareScore();
         createAndPreparePaddle();
+        createAndPrepareBall();
+        createAndPrepareWalls();
     }
 
     public void getActors(List<Actor> actors){
@@ -62,6 +66,15 @@ public class GameLevelModel {
         paddle.setWidth(120f);
         paddle.setHeight(10f);
         paddle.setName("paddleActor");
+    }
+
+    private void createAndPrepareBall(){
+        ball = new BallObject(10);
+        ball.setName("ballActor");
+    }
+
+    private void createAndPrepareWalls(){
+
     }
 
     public int getLevel(){return level;}

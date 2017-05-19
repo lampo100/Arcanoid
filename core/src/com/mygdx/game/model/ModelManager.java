@@ -63,6 +63,8 @@ public class ModelManager {
 
     public WorldManager getWorldManager(){return worldManager;}
 
+    public GameLevelModel getGameLevelModel(){return gameLevelModel;}
+
     public void dispose(){
         gameSkin.dispose();
     }

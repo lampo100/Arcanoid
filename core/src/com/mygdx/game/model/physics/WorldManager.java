@@ -22,6 +22,8 @@ public class WorldManager {
     private World physicsWorld;
     private Body paddle;
     private Body ball;
+    private LinkedList<Body> walls;
+    private LinkedList<Body> bricks;
 
     public World getWorld(){return physicsWorld;}
 
@@ -30,7 +32,7 @@ public class WorldManager {
         physicsWorld.setContactListener(new ContactListener());
     }
 
-    public void movePadle(float newX){
+    public void movePaddle(float newX){
         paddle.setTransform(newX, paddle.getPosition().y, paddle.getAngle());
     }
 
@@ -38,6 +40,11 @@ public class WorldManager {
         int level = gameLevel.getLevel();
         PaddleObject paddleModel = gameLevel.getPaddle();
         createPaddle(paddleModel);
+ //       WallObject = gameLevel.getWalls();
+        //createWalls(walls);
+        //createBricks(bricks);
+        BallObject ballModel = gameLevel.getBall();
+        createBall(ballModel);
     }
 
     private void createPaddle(PaddleObject paddle){
@@ -73,16 +80,56 @@ public class WorldManager {
     private FixtureDef createPaddleFixtureDef(Shape paddleShape){
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = paddleShape;
+        fixtureDef.restitution = 1f;
         return fixtureDef;
     }
+
+    private void createBall(BallObject ballModel){
+        createBallBody(ballModel);
+        Shape ballShape = createBallShape(ballModel.getRadius());
+        createAndAttachBallFixture(ballShape);
+    }
+
+    private void createBallBody(BallObject ball){
+        BodyDef bodyDef = createBallBodyDefinition(ball);
+        this.ball = physicsWorld.createBody(bodyDef);
+        this.ball.setUserData(ball);
+    }
+
+    private BodyDef createBallBodyDefinition(BallObject ball){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.bullet = true;
+        bodyDef.position.set(Gdx.graphics.getWidth()/2, 180);
+        bodyDef.linearVelocity.set(0f, -80f);
+        bodyDef.angularVelocity = 12f;
+        return bodyDef;
+    }
+
+    private Shape createBallShape(float radius){
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(radius);
+        return circleShape;
+    }
+
+    private void createAndAttachBallFixture(Shape ballShape){
+        FixtureDef fixtureDef = createBallFixtureDef(ballShape);
+        ball.createFixture(fixtureDef);
+    }
+
+    private FixtureDef createBallFixtureDef(Shape ballShape){
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = ballShape;
+        fixtureDef.restitution = 1;
+        fixtureDef.friction = 0.05f;
+        return fixtureDef;
+    }
+
 
     public void createBrickBody(BrickObject brick){
 
     }
 
-    public void createBallBody(BallObject ball){
-
-    }
 
     public void createWallBody(WallObject wall){
 

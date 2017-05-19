@@ -12,7 +12,7 @@ public class PaddleObject extends GameObject {
     public void draw(Batch batch, float parentAlpha) {
         batch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1);
+        shapeRenderer.setColor(this.getColor());
         shapeRenderer.rect(this.getX() - this.getWidth()/2, this.getY() - this.getHeight()/2, this.getWidth(), this.getHeight());
         shapeRenderer.end();
         batch.begin();
