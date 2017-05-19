@@ -43,8 +43,8 @@ public class WorldManager {
         createFloor();
         BallObject ballModel = gameLevel.getBall();
         createBall(ballModel);
-       // List<BrickObject> brickObjects = gameLevel.getBricks(); TODO
-       // createBricks(brickObjects);
+        List<BrickObject> brickObjects = gameLevel.getBricks();
+        createBricks(brickObjects);
     }
 
     private void createPaddle(PaddleObject paddle){
@@ -101,7 +101,7 @@ public class WorldManager {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.bullet = true;
         bodyDef.position.set(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 180/PIXELS_TO_METERS_RATIO);
-        bodyDef.linearVelocity.set(10f, 0f);
+        bodyDef.linearVelocity.set(10f, -4f);
         bodyDef.angularVelocity = 5f;
         return bodyDef;
     }
@@ -243,7 +243,7 @@ public class WorldManager {
 
     private Shape createBrickShape(float width, float height){
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width/2*PIXELS_TO_METERS_RATIO, height/2*PIXELS_TO_METERS_RATIO);
+        shape.setAsBox((width/2)/PIXELS_TO_METERS_RATIO, (height/2)/PIXELS_TO_METERS_RATIO);
         return shape;
     }
 
