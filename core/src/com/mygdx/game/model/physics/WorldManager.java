@@ -5,10 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.model.objects.BallObject;
-import com.mygdx.game.model.objects.BrickObject;
-import com.mygdx.game.model.objects.PaddleObject;
-import com.mygdx.game.model.objects.WallObject;
+import com.mygdx.game.model.objects.*;
 import com.mygdx.game.model.screens.GameLevelModel;
 
 import java.util.ArrayList;
@@ -23,7 +20,8 @@ public class WorldManager {
     private Body paddle;
     private Body ball;
     private LinkedList<Body> walls = new LinkedList<Body>();
-    private LinkedList<Body> bricks;
+    private Body floor;
+    private LinkedList<Body> bricks = new LinkedList<Body>();
     private float PIXELS_TO_METERS_RATIO = 60;
 
     public World getWorld(){return physicsWorld;}
@@ -38,14 +36,15 @@ public class WorldManager {
     }
 
     public void createGameLevelBody(GameLevelModel gameLevel){
-        int level = gameLevel.getLevel();
         PaddleObject paddleModel = gameLevel.getPaddle();
         createPaddle(paddleModel);
         List<WallObject> wallsObjects = gameLevel.getWalls();
         createWalls(wallsObjects);
-        //createBricks(bricks);
+        createFloor();
         BallObject ballModel = gameLevel.getBall();
         createBall(ballModel);
+       // List<BrickObject> brickObjects = gameLevel.getBricks(); TODO
+       // createBricks(brickObjects);
     }
 
     private void createPaddle(PaddleObject paddle){
@@ -102,7 +101,7 @@ public class WorldManager {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.bullet = true;
         bodyDef.position.set(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 180/PIXELS_TO_METERS_RATIO);
-        bodyDef.linearVelocity.set(10f, 10f);
+        bodyDef.linearVelocity.set(10f, 0f);
         bodyDef.angularVelocity = 5f;
         return bodyDef;
     }
@@ -135,7 +134,6 @@ public class WorldManager {
             createAndAttachWallFixture(wallShape, wall);
             i++;
         }
-
     }
 
     private void createWallsBodies(List<WallObject> walls){
@@ -177,8 +175,89 @@ public class WorldManager {
         return fixtureDef;
     }
 
-    public void createBrickBody(BrickObject brick){
+    private void createFloor(){
+        createFloorBody();
+        Shape shape = createFloorShape();
+        createAndAttachFloorFixture(shape);
+    }
 
+    private void createFloorBody(){
+        BodyDef bodyDef = createFloorBodyDefinition();
+        floor = physicsWorld.createBody(bodyDef);
+    }
+
+    private BodyDef createFloorBodyDefinition(){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 0);
+        return bodyDef;
+    }
+
+    private Shape createFloorShape(){
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 1/PIXELS_TO_METERS_RATIO);
+        return shape;
+    }
+
+    private void createAndAttachFloorFixture(Shape floorShape){
+         FixtureDef fixtureDef = createFloorFixtureDef(floorShape);
+         floor.createFixture(fixtureDef);
+    }
+
+    private FixtureDef createFloorFixtureDef(Shape floorShape){
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.isSensor = true;
+        fixtureDef.shape = floorShape;
+        return fixtureDef;
+    }
+
+    private void createBricks(List<BrickObject> bricksObjects){
+        createBricksBodies(bricksObjects);
+        int i = 0;
+        for(Body brick: bricks){
+            Shape brickShape = createBrickShape(bricksObjects.get(i).getWidth(), bricksObjects.get(i).getHeight());
+            createAndAttachBrickFixture(brickShape, brick);
+            i++;
+        }
+    }
+
+    private void createBricksBodies(List<BrickObject> bricks){
+        for(BrickObject brick: bricks){
+            BodyDef bodyDef = createBrickBodyDefinition(brick);
+            createBrickBody(bodyDef, brick);
+        }
+    }
+
+    private BodyDef createBrickBodyDefinition(BrickObject brick){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set((brick.getX()+brick.getWidth()/2)/PIXELS_TO_METERS_RATIO, (brick.getY() + brick.getWidth()/2)/PIXELS_TO_METERS_RATIO);
+        return bodyDef;
+    }
+
+    private void createBrickBody(BodyDef bodyDef, BrickObject brick){
+        Body brickBody = physicsWorld.createBody(bodyDef);
+        brickBody.setUserData(brick);
+        bricks.add(brickBody);
+    }
+
+    private Shape createBrickShape(float width, float height){
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width/2*PIXELS_TO_METERS_RATIO, height/2*PIXELS_TO_METERS_RATIO);
+        return shape;
+    }
+
+    private void createAndAttachBrickFixture(Shape brickShape, Body brickToAttach){
+        FixtureDef fixtureDef = createBrickFixtureDef(brickShape);
+        brickToAttach.createFixture(fixtureDef);
+    }
+
+    private FixtureDef createBrickFixtureDef(Shape brickShape){
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = brickShape;
+        fixtureDef.restitution = 1;
+        fixtureDef.friction = 0.1f;
+        return fixtureDef;
     }
 
 
@@ -191,7 +270,9 @@ public class WorldManager {
 
     private void updatePositionOfEachBody(Array<Body> bodies){
         for(Body body: bodies)
-            updatePositionOfBody(body);
+            if(!body.getFixtureList().first().isSensor())
+                if(!((GameObject)body.getUserData()).isDead())
+                    updatePositionOfBody(body);
     }
 
     private void updatePositionOfBody(Body body){

@@ -38,6 +38,7 @@ public class GameLevelModel {
         createAndPreparePaddle();
         createAndPrepareBall();
         createAndPrepareWalls();
+        createAndPrepareBricks();
     }
 
     public void getActors(List<Actor> actors){
@@ -45,6 +46,8 @@ public class GameLevelModel {
         modelManager.getWorldManager().updateModelObjectsPositions();
         actors.add(score);
         actors.add(paddle);
+        actors.add(ball);
+        actors.addAll(bricks);
     }
 
     private void createAndPrepareScore(){
@@ -64,7 +67,7 @@ public class GameLevelModel {
     }
 
     private void createAndPrepareBall(){
-        ball = new BallObject(10);
+        ball = new BallObject(4f);
         ball.setName("ballActor");
     }
 
@@ -98,6 +101,37 @@ public class GameLevelModel {
         ceiling.setName("ceiling");
     }
 
+    private void createAndPrepareBricks(){
+        //loadBricksPositions();
+        if(bricksPositions.isEmpty())
+            createFreshBricks();
+    }
+
+    private void createFreshBricks(){
+        generateBricks(12, 6);
+    }
+
+    private void generateBricks(int bricksInRow, int levelsOfBricks){
+        float gameHeight = Gdx.graphics.getHeight();
+        float gameWidth = Gdx.graphics.getWidth();
+        float brickWidth = gameWidth/bricksInRow;
+        float brickHeight =  gameHeight/(levelsOfBricks*2);
+        for(float y = gameHeight/2 + brickHeight; y < gameHeight - 2*brickHeight; y+=brickHeight + 20f)
+            for(float x = brickWidth; x < gameWidth - brickWidth*2; x+= brickWidth + 10f){
+                bricks.add(createBrick(x, y, brickWidth, brickHeight));
+                bricksPositions.add(new Vector2(x, y));
+            }
+    }
+
+    private BrickObject createBrick(float x, float y, float width, float height){
+        BrickObject brick = new BrickObject();
+        brick.setPosition(x, y);
+        brick.setWidth(width);
+        brick.setHeight(height);
+        brick.setName("brick");
+        return brick;
+    }
+
     public int getLevel(){return level;}
 
     public List<BrickObject> getBricks() {
@@ -122,14 +156,14 @@ public class GameLevelModel {
 
     //TODO encapsulate these loading methods into another class(do the same for Settings and SettingsManager)
 
-    public void loadBricksPositions(){
+    private void loadBricksPositions(){
         Json jsonParser = new Json();
         String jsonString = readJsonFromFile("level" + Integer.toString(level) + ".json");
         bricksPositions.clear();
         bricksPositions.addAll(jsonParser.fromJson(bricksPositions.getClass(), jsonString));
     }
 
-    private void saveBricksPositions(){
+    public void saveBricksPositions(){
         String fileName = "level" + Integer.toString(level) + ".json";
         String jsonString = convertBrickPositionsToJson();
         saveToFile(jsonString, fileName);

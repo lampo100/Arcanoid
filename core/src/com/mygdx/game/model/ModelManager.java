@@ -67,6 +67,7 @@ public class ModelManager {
 
     public void dispose(){
         gameSkin.dispose();
+        gameLevelModel.saveBricksPositions();
     }
 
 

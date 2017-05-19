@@ -13,6 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class GameObject extends Actor {
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     private Color color = new Color(0f, 0f, 0f, 1);
+    private boolean dead = false;
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
 
     public void setColor(Color color){this.color = color;}
 

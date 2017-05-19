@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.model.ModelManager;
+import com.mygdx.game.model.objects.GameObject;
 import com.mygdx.game.view.ArcanoidGame;
 import com.mygdx.game.view.listeners.GameLevelListener;
 
@@ -59,10 +60,19 @@ public class GameLevelScreen implements Screen {
     public void render(float delta) {
         game.getModel().getWorldManager().stepPhysicsWorld();
         game.getModel().getWorldManager().updateModelObjectsPositions();
+        removeDeadActorsFromStage();
         clearBlack();
         gameLevelStage.act();
         gameLevelStage.draw();
         debuger.render(game.getModel().getWorldManager().getWorld(), batch.getProjectionMatrix().cpy().scale(60, 60, 0));
+    }
+
+    private void removeDeadActorsFromStage(){
+        for(Actor actor: gameLevelStage.getActors())
+            if((actor.getClass().getGenericSuperclass().equals(GameObject.class))&&((GameObject)actor).isDead()){
+                actor.remove();
+                System.out.println("removed actor");
+            }
     }
 
     private void clearBlack(){
