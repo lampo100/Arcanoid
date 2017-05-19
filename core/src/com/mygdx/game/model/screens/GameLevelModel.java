@@ -2,13 +2,10 @@ package com.mygdx.game.model.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.model.ModelManager;
 import com.mygdx.game.model.objects.BallObject;
@@ -16,8 +13,6 @@ import com.mygdx.game.model.objects.BrickObject;
 import com.mygdx.game.model.objects.PaddleObject;
 import com.mygdx.game.model.objects.WallObject;
 
-import java.io.File;
-import java.net.Inet4Address;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,7 +29,7 @@ public class GameLevelModel {
 
     private PaddleObject paddle;
     private BallObject ball;
-    private WallObject lefWall, rightWall, ceiling;
+    private WallObject leftWall, rightWall, ceiling;
 
 
     public GameLevelModel(ModelManager model){
@@ -74,7 +69,33 @@ public class GameLevelModel {
     }
 
     private void createAndPrepareWalls(){
+        createAndPrepareLefWall();
+        createAndPrepareRightWall();
+        createAndPrepareCeiling();
+    }
 
+    private void createAndPrepareLefWall(){
+        leftWall = new WallObject();
+        leftWall.setWidth(1f);
+        leftWall.setHeight(Gdx.graphics.getHeight());
+        leftWall.setPosition(-1f, 0f);
+        leftWall.setName("leftWall");
+    }
+
+    private void createAndPrepareRightWall(){
+        rightWall = new WallObject();
+        rightWall.setWidth(1f);
+        rightWall.setHeight(Gdx.graphics.getHeight());
+        rightWall.setPosition(Gdx.graphics.getWidth(), 0);
+        rightWall.setName("rightWall");
+    }
+
+    private void createAndPrepareCeiling(){
+        ceiling = new WallObject();
+        ceiling.setWidth(Gdx.graphics.getWidth());
+        ceiling.setHeight(1f);
+        ceiling.setPosition(0, Gdx.graphics.getHeight());
+        ceiling.setName("ceiling");
     }
 
     public int getLevel(){return level;}
@@ -89,6 +110,14 @@ public class GameLevelModel {
 
     public BallObject getBall() {
         return ball;
+    }
+
+    public List<WallObject> getWalls(){
+        LinkedList<WallObject> walls = new LinkedList<WallObject>();
+        walls.add(leftWall);
+        walls.add(rightWall);
+        walls.add(ceiling);
+        return walls;
     }
 
     //TODO encapsulate these loading methods into another class(do the same for Settings and SettingsManager)

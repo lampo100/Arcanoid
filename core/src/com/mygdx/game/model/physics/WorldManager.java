@@ -22,8 +22,9 @@ public class WorldManager {
     private World physicsWorld;
     private Body paddle;
     private Body ball;
-    private LinkedList<Body> walls;
+    private LinkedList<Body> walls = new LinkedList<Body>();
     private LinkedList<Body> bricks;
+    private float PIXELS_TO_METERS_RATIO = 60;
 
     public World getWorld(){return physicsWorld;}
 
@@ -33,15 +34,15 @@ public class WorldManager {
     }
 
     public void movePaddle(float newX){
-        paddle.setTransform(newX, paddle.getPosition().y, paddle.getAngle());
+        paddle.setTransform(newX/PIXELS_TO_METERS_RATIO, paddle.getPosition().y, paddle.getAngle());
     }
 
     public void createGameLevelBody(GameLevelModel gameLevel){
         int level = gameLevel.getLevel();
         PaddleObject paddleModel = gameLevel.getPaddle();
         createPaddle(paddleModel);
- //       WallObject = gameLevel.getWalls();
-        //createWalls(walls);
+        List<WallObject> wallsObjects = gameLevel.getWalls();
+        createWalls(wallsObjects);
         //createBricks(bricks);
         BallObject ballModel = gameLevel.getBall();
         createBall(ballModel);
@@ -49,7 +50,7 @@ public class WorldManager {
 
     private void createPaddle(PaddleObject paddle){
         createPaddleBody(paddle);
-        Shape paddleShape = createPaddleShape(paddle.getWidth()/2, paddle.getHeight()/2);
+        Shape paddleShape = createPaddleShape(paddle.getWidth(), paddle.getHeight());
         createAndAttachPaddleFixture(paddleShape);
     }
 
@@ -62,13 +63,13 @@ public class WorldManager {
     private BodyDef createPaddleBodyDefinition(PaddleObject paddleObject){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(Gdx.graphics.getWidth()/2 - paddleObject.getWidth(), 40);
+        bodyDef.position.set(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 40/PIXELS_TO_METERS_RATIO);
         return bodyDef;
     }
 
     private Shape createPaddleShape(float width, float height){
         PolygonShape paddleShape = new PolygonShape();
-        paddleShape.setAsBox(width, height);
+        paddleShape.setAsBox(width/(2*PIXELS_TO_METERS_RATIO), height/(2*PIXELS_TO_METERS_RATIO));
         return paddleShape;
     }
 
@@ -86,7 +87,7 @@ public class WorldManager {
 
     private void createBall(BallObject ballModel){
         createBallBody(ballModel);
-        Shape ballShape = createBallShape(ballModel.getRadius());
+        Shape ballShape = createBallShape(ballModel.getRadius()/PIXELS_TO_METERS_RATIO);
         createAndAttachBallFixture(ballShape);
     }
 
@@ -100,9 +101,9 @@ public class WorldManager {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.bullet = true;
-        bodyDef.position.set(Gdx.graphics.getWidth()/2, 180);
-        bodyDef.linearVelocity.set(0f, -80f);
-        bodyDef.angularVelocity = 12f;
+        bodyDef.position.set(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 180/PIXELS_TO_METERS_RATIO);
+        bodyDef.linearVelocity.set(10f, 10f);
+        bodyDef.angularVelocity = 5f;
         return bodyDef;
     }
 
@@ -120,20 +121,67 @@ public class WorldManager {
     private FixtureDef createBallFixtureDef(Shape ballShape){
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = ballShape;
-        fixtureDef.restitution = 1;
-        fixtureDef.friction = 0.05f;
+        fixtureDef.restitution = 1.0f;
+        fixtureDef.friction = 0.f;
+        fixtureDef.density = 1f;
         return fixtureDef;
     }
 
+    private void createWalls(List<WallObject> walls){
+        createWallsBodies(walls);
+        int i = 0;
+        for(Body wall: this.walls){
+            Shape wallShape = createWallShape(walls.get(i).getWidth(), walls.get(i).getHeight());
+            createAndAttachWallFixture(wallShape, wall);
+            i++;
+        }
+
+    }
+
+    private void createWallsBodies(List<WallObject> walls){
+        BodyDef bodyDef = createWallBodyDefinition();
+        for(WallObject wall: walls){
+            createWallBody(wall, bodyDef);
+        }
+    }
+
+    private BodyDef createWallBodyDefinition(){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        return bodyDef;
+    }
+
+    private void createWallBody(WallObject wall, BodyDef bodyDef){
+        bodyDef.position.set((wall.getX() + wall.getWidth()/2)/PIXELS_TO_METERS_RATIO, (wall.getY() + wall.getHeight()/2)/PIXELS_TO_METERS_RATIO);
+        Body wallBody = physicsWorld.createBody(bodyDef);
+        wallBody.setUserData(wall);
+        walls.add(wallBody);
+    }
+
+    private Shape createWallShape(float width, float height){
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width/(2*PIXELS_TO_METERS_RATIO), height/(2*PIXELS_TO_METERS_RATIO));
+        return shape;
+    }
+
+    private void createAndAttachWallFixture(Shape wallShape, Body wall){
+        FixtureDef fixtureDef = createWallFixtureDef(wallShape);
+        wall.createFixture(fixtureDef);
+    }
+
+    private FixtureDef createWallFixtureDef(Shape wallShape){
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = wallShape;
+        fixtureDef.restitution = 1f;
+        fixtureDef.friction = 0f;
+        return fixtureDef;
+    }
 
     public void createBrickBody(BrickObject brick){
 
     }
 
 
-    public void createWallBody(WallObject wall){
-
-    }
 
     public void updateModelObjectsPositions(){
         Array<Body> bodies = new Array<Body>();
@@ -147,12 +195,12 @@ public class WorldManager {
     }
 
     private void updatePositionOfBody(Body body){
-        float newX = body.getPosition().x;
-        float newY = body.getPosition().y;
+        float newX = body.getPosition().x*PIXELS_TO_METERS_RATIO;
+        float newY = body.getPosition().y*PIXELS_TO_METERS_RATIO;
         ((Actor)body.getUserData()).setPosition(newX, newY);
     }
 
-    public void stepPhysicsWorld(){physicsWorld.step(Gdx.graphics.getDeltaTime(), 6, 2);}
+    public void stepPhysicsWorld(){physicsWorld.step(1f/60f, 6, 2);}
 
     public void dispose(){
         physicsWorld.dispose();
