@@ -41,10 +41,14 @@ public class GameLevelModel {
         createAndPrepareBricks();
     }
 
+    public void createNewBall(){
+        createAndPrepareBall();
+    }
+
     public void getActors(List<Actor> actors){
         actors.clear();
         modelManager.getWorldManager().updateModelObjectsPositions();
-        actors.add(score);
+//        actors.add(score);
         actors.add(paddle);
         actors.add(ball);
         actors.addAll(bricks);
@@ -61,7 +65,7 @@ public class GameLevelModel {
 
     private void createAndPreparePaddle(){
         paddle = new PaddleObject();
-        paddle.setWidth(120f);
+        paddle.setWidth(110f);
         paddle.setHeight(10f);
         paddle.setName("paddleActor");
     }
@@ -108,16 +112,16 @@ public class GameLevelModel {
     }
 
     private void createFreshBricks(){
-        generateBricks(12, 18);
+        generateBricks(12, 15);
     }
 
     private void generateBricks(int bricksInRow, int levelsOfBricks){
         float gameHeight = Gdx.graphics.getHeight();
         float gameWidth = Gdx.graphics.getWidth();
-        float brickWidth = gameWidth/bricksInRow;
-        float brickHeight =  gameHeight/(levelsOfBricks*2);
-        for(float y = gameHeight/2 + brickHeight; y < gameHeight - 2*brickHeight; y+=brickHeight + 10f)
-            for(float x = brickWidth; x < gameWidth - brickWidth*2; x+= brickWidth + 10f){
+        float brickWidth = (gameWidth + 10f - bricksInRow*2*10f)/bricksInRow;
+        float brickHeight =  (gameHeight + 10f - levelsOfBricks*2*10f)/levelsOfBricks;
+        for(float y = gameHeight/2 + 5f; y <= gameHeight - 2*brickHeight - 5f; y+=brickHeight + 5f)
+            for(float x = 10f; x <= gameWidth - brickWidth - 10f; x+= brickWidth + 10f){
                 bricks.add(createBrick(x, y, brickWidth, brickHeight));
                 bricksPositions.add(new Vector2(x, y));
             }

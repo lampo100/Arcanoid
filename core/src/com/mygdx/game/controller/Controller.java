@@ -40,6 +40,7 @@ public class Controller {
 
     public void dispose(){
         settingsManager.saveSettings();
+        screenManager.dispose();
     }
 
 }

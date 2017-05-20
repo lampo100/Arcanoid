@@ -3,6 +3,7 @@ package com.mygdx.game.model.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.model.objects.GameObject;
+import com.mygdx.game.view.ArcanoidGame;
 
 import java.util.Random;
 
@@ -10,6 +11,7 @@ import java.util.Random;
  * Created by Kacper on 2017-05-15.
  */
 public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactListener {
+
     @Override
     public void beginContact(Contact contact) {
         Body firstBody = contact.getFixtureA().getBody();

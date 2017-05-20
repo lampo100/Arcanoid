@@ -3,6 +3,7 @@ package com.mygdx.game.view.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,17 +21,21 @@ public class MainMenuScreen implements Screen {
     private Stage mainMenuStage;
     private ArcanoidGame game;
     private List<Actor> actors;
+    private Music music;
 
     public MainMenuScreen(ArcanoidGame game, ModelManager model){
         super();
         initializeAttributes(game);
         fetchActorsFromModel();
         addActorsToStage();
+        music.play();
     }
 
     private void initializeAttributes(ArcanoidGame game){
         mainMenuStage = new Stage(new ScreenViewport());
         this.game = game;
+        music = Gdx.audio.newMusic(Gdx.files.internal("music.wav"));
+        music.setLooping(true);
     }
 
     private void fetchActorsFromModel(){
@@ -84,5 +89,6 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         mainMenuStage.dispose();
+        music.dispose();
     }
 }

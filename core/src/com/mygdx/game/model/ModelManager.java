@@ -3,7 +3,6 @@ package com.mygdx.game.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.mygdx.game.model.Settings;
 import com.mygdx.game.model.physics.WorldManager;
 import com.mygdx.game.model.screens.GameLevelModel;
 import com.mygdx.game.model.screens.MainMenuModel;
@@ -84,7 +83,7 @@ public class ModelManager {
      * Otherwise very bad things could happen(maybe).
      */
     public void disposeGameLevelModel(){
-
+        worldManager.dispose();
     }
 
     /**

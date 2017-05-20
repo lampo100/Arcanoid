@@ -1,5 +1,7 @@
 package com.mygdx.game.model.objects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -8,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 public class BallObject extends GameObject {
     private float radius;
+    private Sound gameOver;
 
     public float getRadius() {
         return radius;
@@ -20,7 +23,7 @@ public class BallObject extends GameObject {
     public BallObject(float radius){
         super();
         this.radius = radius;
-
+        gameOver = Gdx.audio.newSound(Gdx.files.internal("gameOver.wav"));
     }
 
     @Override
@@ -31,5 +34,11 @@ public class BallObject extends GameObject {
         shapeRenderer.circle(this.getX(), this.getY(), this.getRadius());
         shapeRenderer.end();
         batch.begin();
+    }
+
+    @Override
+    public void setDead(boolean dead) {
+        super.setDead(dead);
+        gameOver.play();
     }
 }

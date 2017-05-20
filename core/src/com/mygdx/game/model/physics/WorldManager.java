@@ -23,6 +23,7 @@ public class WorldManager {
     private Body floor;
     private LinkedList<Body> bricks = new LinkedList<Body>();
     private float PIXELS_TO_METERS_RATIO = 60;
+    GameLevelModel currentModel;
 
     public World getWorld(){return physicsWorld;}
 
@@ -31,11 +32,16 @@ public class WorldManager {
         physicsWorld.setContactListener(new ContactListener());
     }
 
+    public void addNewBall(BallObject ball){
+        createBall(ball);
+    }
+
     public void movePaddle(float newX){
         paddle.setTransform(newX/PIXELS_TO_METERS_RATIO, paddle.getPosition().y, paddle.getAngle());
     }
 
     public void createGameLevelBody(GameLevelModel gameLevel){
+        currentModel = gameLevel;
         PaddleObject paddleModel = gameLevel.getPaddle();
         createPaddle(paddleModel);
         List<WallObject> wallsObjects = gameLevel.getWalls();
@@ -284,6 +290,7 @@ public class WorldManager {
     public void stepPhysicsWorld(){
         physicsWorld.step(1f/60f, 6, 2);
         removeDeadBodies();
+
     }
 
     private void removeDeadBodies(){
