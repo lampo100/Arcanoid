@@ -108,7 +108,7 @@ public class GameLevelModel {
     }
 
     private void createFreshBricks(){
-        generateBricks(12, 6);
+        generateBricks(12, 18);
     }
 
     private void generateBricks(int bricksInRow, int levelsOfBricks){
@@ -116,7 +116,7 @@ public class GameLevelModel {
         float gameWidth = Gdx.graphics.getWidth();
         float brickWidth = gameWidth/bricksInRow;
         float brickHeight =  gameHeight/(levelsOfBricks*2);
-        for(float y = gameHeight/2 + brickHeight; y < gameHeight - 2*brickHeight; y+=brickHeight + 20f)
+        for(float y = gameHeight/2 + brickHeight; y < gameHeight - 2*brickHeight; y+=brickHeight + 10f)
             for(float x = brickWidth; x < gameWidth - brickWidth*2; x+= brickWidth + 10f){
                 bricks.add(createBrick(x, y, brickWidth, brickHeight));
                 bricksPositions.add(new Vector2(x, y));

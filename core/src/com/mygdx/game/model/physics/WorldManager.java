@@ -101,7 +101,7 @@ public class WorldManager {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.bullet = true;
         bodyDef.position.set(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 180/PIXELS_TO_METERS_RATIO);
-        bodyDef.linearVelocity.set(10f, -4f);
+        bodyDef.linearVelocity.set(0f, 0f);
         bodyDef.angularVelocity = 5f;
         return bodyDef;
     }
@@ -298,6 +298,10 @@ public class WorldManager {
         try{
             return ((GameObject)body.getUserData()).isDead();
         }catch(NullPointerException e){return false;}
+    }
+
+    public void setBallInMotion(){
+        ball.setLinearVelocity(0f, -8f);
     }
 
     public void dispose(){

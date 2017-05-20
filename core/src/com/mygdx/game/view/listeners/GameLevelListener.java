@@ -10,10 +10,20 @@ import com.mygdx.game.view.ArcanoidGame;
  */
 public class GameLevelListener extends InputListener{
     private ArcanoidGame game;
+    private boolean ballInMotion = false;
 
     public GameLevelListener(ArcanoidGame game){
             super();
             this.game = game;
+    }
+
+    @Override
+    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        if(!ballInMotion){
+            game.getModel().getWorldManager().setBallInMotion();
+            ballInMotion = true;
+        }
+        return false;
     }
 
     @Override
