@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- * Created by Kacper on 2017-05-14.
+ * General game object
  */
 public class GameObject extends Actor {
     ShapeRenderer shapeRenderer = new ShapeRenderer();

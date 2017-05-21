@@ -1,6 +1,5 @@
 package com.mygdx.game.view.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,9 +13,7 @@ import com.mygdx.game.view.listeners.OptionsScreenListener;
 import java.util.List;
 
 /**
- * <h1>OptionsScreen</h1>
- * This class handles options screen view
- * @author Kacper Kamiński
+ * This class belongs to the View. It handles drawing of everything in the options.
  */
 public class OptionsScreen implements Screen {
     private ArcanoidGame game;

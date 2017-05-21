@@ -15,7 +15,7 @@ import com.mygdx.game.model.ModelManager;
 import java.util.List;
 
 /**
- * Created by Kacper on 2017-05-14.
+ * This class holds all of the main menu data(things like background, elements positions, etc.)
  */
 public class MainMenuModel{
     private Label title;
@@ -34,6 +34,10 @@ public class MainMenuModel{
         createAndPrepareQuitButton();
     }
 
+    /**
+     * Add to the list all the actors in the main menu
+     * @param actors
+     */
     public void getActors(List<Actor> actors){
         actors.clear();
         actors.add(background);

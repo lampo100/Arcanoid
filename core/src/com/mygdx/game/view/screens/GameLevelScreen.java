@@ -1,13 +1,9 @@
 package com.mygdx.game.view.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,7 +16,7 @@ import com.mygdx.game.view.listeners.GameLevelListener;
 import java.util.List;
 
 /**
- * Created by Kacper on 2017-05-14.
+ * This class belongs to the View. It handles drawing of everything in game.
  */
 public class GameLevelScreen implements Screen {
     private ArcanoidGame game;
@@ -53,6 +49,9 @@ public class GameLevelScreen implements Screen {
         }
     }
 
+    /**
+     * Restart the game
+     */
     public void resetScreen(){
         this.pause();
         for(Actor actor: gameLevelStage.getActors())
@@ -65,8 +64,6 @@ public class GameLevelScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(gameLevelStage);
-//        Gdx.input.setCursorCatched(true);
-//        Gdx.input.setCursorPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
     }
 
     @Override
@@ -89,6 +86,11 @@ public class GameLevelScreen implements Screen {
             }
     }
 
+    /**
+     * Check if player has already won.
+     * @return
+     * false if player hasn't won and true if he has
+     */
     private boolean playerWon(){
         for(Actor actor: gameLevelStage.getActors())
             if(actor.getName().equals("brick") && !((GameObject)actor).isDead()){

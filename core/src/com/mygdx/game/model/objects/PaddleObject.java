@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- * Created by Kacper on 2017-05-14.
+ * Model object containing paddle's data
  */
 public class PaddleObject extends GameObject {
 
@@ -13,6 +13,9 @@ public class PaddleObject extends GameObject {
         setColor(255f/255, 168f/255, 1f/255, 1f);
     }
 
+    /**
+     * Draw the paddle using @see com.badlogic.gdx.graphics.glutils.ShapeRenderer
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.end();

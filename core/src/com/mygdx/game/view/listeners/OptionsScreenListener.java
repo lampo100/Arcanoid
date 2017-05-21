@@ -8,11 +8,11 @@ import com.mygdx.game.model.ModelManager;
 import com.mygdx.game.view.ArcanoidGame;
 
 /**
- * Created by Kacper on 2017-05-15.
+ * This function handels input events in options.
  */
 public class OptionsScreenListener extends InputListener{
-    ArcanoidGame game;
-    Actor actor;
+    private ArcanoidGame game;
+    private Actor actor;
 
     public OptionsScreenListener(ArcanoidGame game, Actor actor){
         super();
@@ -20,6 +20,9 @@ public class OptionsScreenListener extends InputListener{
         this.actor = actor;
     }
 
+    /**
+     * Handle mouse left button's clicks.
+     */
     @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
         if(actor.getName().equals("mainMenuButton")){

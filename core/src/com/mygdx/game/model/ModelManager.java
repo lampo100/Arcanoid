@@ -2,7 +2,6 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.model.physics.WorldManager;
@@ -14,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Kacper on 2017-05-14.
+ * This is the main Model class. It holds all the data in the game that doesn't belong to the view and manages it
  */
 public class ModelManager {
     private MainMenuModel mainMenuModel;
@@ -24,9 +23,9 @@ public class ModelManager {
     private WorldManager worldManager;
     private Music music;
 
-
-
-
+    /**
+     * Initialize all the game data.
+     */
     public void initializeModelManager(){
         gameSkin = new Skin(Gdx.files.internal("quantum-horizon-ui.json"));
         mainMenuModel = new MainMenuModel(this);
@@ -36,6 +35,10 @@ public class ModelManager {
         music = Gdx.audio.newMusic(Gdx.files.internal("music.wav"));
     }
 
+    /**
+     *
+     * @return current game skin
+     */
     public Skin getGameSkin() {
         return gameSkin;
     }
@@ -60,17 +63,28 @@ public class ModelManager {
         return actors;
     }
 
+    /**
+     * Reset the game
+     */
     public void resetGameLevel(){
         worldManager.resetBall();
         worldManager.addDeadBodiesAgain();
         gameLevelModel.resetModel();
     }
 
+    /**
+     * Create box2d physics simulation
+     */
     public void createPhysicalGameLevel(){
         worldManager.createGameLevelBody(gameLevelModel);
     }
 
+    /**
+     *
+     * @return box2d simulation manager
+     */
     public WorldManager getWorldManager(){return worldManager;}
+
 
     public GameLevelModel getGameLevelModel(){return gameLevelModel;}
 
@@ -88,30 +102,5 @@ public class ModelManager {
         gameSkin.dispose();
         gameLevelModel.saveBricksPositions();
         music.dispose();
-    }
-
-
-    /**
-     * This funtion HAS to be used after we dispose of main menu screen's stage in view.
-     * Otherwise very bad things could happen(maybe).
-     */
-    public void disposeMainMenuModel(){
-
-    }
-
-    /**
-     * This funtion HAS to be used after we dispose of game level screen's stage in view.
-     * Otherwise very bad things could happen(maybe).
-     */
-    public void disposeGameLevelModel(){
-        worldManager.dispose();
-    }
-
-    /**
-     * This funtion HAS to be used after we dispose of options screen's stage in view.
-     * Otherwise very bad things could happen(maybe).
-     */
-    public void disposeOptionsModel(){
-
     }
 }

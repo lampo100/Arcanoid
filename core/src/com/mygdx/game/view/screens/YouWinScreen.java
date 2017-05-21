@@ -5,25 +5,22 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.model.ModelManager;
 import com.mygdx.game.view.ArcanoidGame;
-import com.mygdx.game.view.listeners.MainScreenListener;
 import com.mygdx.game.view.listeners.YouWinListener;
 
 import java.util.List;
 
 /**
- * Created by Kacper on 2017-05-21.
+ * This class belongs to the View. It handles drawing of the "You win! message.
  */
 public class YouWinScreen implements Screen {
     private ArcanoidGame game;
     private List<Actor> actors;
     private Stage youWinStage;
-    private Image text;
 
     public YouWinScreen(ArcanoidGame game, ModelManager model){
         super();
@@ -38,7 +35,7 @@ public class YouWinScreen implements Screen {
     }
 
     private void addTextToStage(){
-        text = new Image(new Texture(Gdx.files.internal("youWin.png")));
+        Image text = new Image(new Texture(Gdx.files.internal("youWin.png")));
         text.setPosition(0f, 0f);
         youWinStage.addActor(text);
     }

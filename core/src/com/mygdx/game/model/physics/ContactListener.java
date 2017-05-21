@@ -9,10 +9,14 @@ import com.mygdx.game.view.ArcanoidGame;
 import java.util.Random;
 
 /**
- * Created by Kacper on 2017-05-15.
+ * Listener for the box2d simulation. Handles collisions.
  */
 public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactListener {
 
+    /**
+     * Handles ball-wall, ball-brick, ball-paddle and ball-floor collisions. adds random force to the ball on contact with paddle and brick
+     * @param contact
+     */
     @Override
     public void beginContact(Contact contact) {
         Body firstBody = contact.getFixtureA().getBody();

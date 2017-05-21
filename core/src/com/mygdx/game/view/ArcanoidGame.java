@@ -1,12 +1,10 @@
 package com.mygdx.game.view;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.mygdx.game.controller.Controller;
 import com.mygdx.game.model.ModelManager;
 
 /**
- * <h1>ArcanoidGame</h1>
  * This is main game class that is also main view class. When the game
  * is loaded game cycle begins here.
  * @author Kacper Kamiński

@@ -1,24 +1,24 @@
 package com.mygdx.game.view.listeners;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.game.view.ArcanoidGame;
 
 /**
- * Created by Kacper on 2017-05-21.
+ * This class handles input events in "You win" screen.
  */
 public class YouWinListener extends InputListener{
-    ArcanoidGame game;
+    private ArcanoidGame game;
 
     public YouWinListener(ArcanoidGame game){
         super();
         this.game = game;
     }
 
+    /**
+     * Press r to restart the game, escape to go to the main menu.
+     */
     @Override
     public boolean keyUp(InputEvent event, int keycode) {
         if(keycode == Input.Keys.ESCAPE){

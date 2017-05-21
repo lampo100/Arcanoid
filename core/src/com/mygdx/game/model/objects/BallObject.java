@@ -7,12 +7,16 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- * Created by Kacper on 2017-05-16.
+ * Model object containing ball's data
  */
 public class BallObject extends GameObject {
     private float radius;
     private Sound gameOver;
 
+    /**
+     *
+     * @return ball radius
+     */
     public float getRadius() {
         return radius;
     }
@@ -28,6 +32,9 @@ public class BallObject extends GameObject {
         setColor(new Color(55f/255, 244f/255, 46f/255, 1f));
     }
 
+    /**
+     * Draw the ball using @see com.badlogic.gdx.graphics.glutils.ShapeRenderer
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.end();
@@ -38,6 +45,9 @@ public class BallObject extends GameObject {
         batch.begin();
     }
 
+    /**
+     * Set the ball as dead and play sound
+     */
     @Override
     public void setDead(boolean dead) {
         super.setDead(dead);

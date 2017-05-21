@@ -1,9 +1,7 @@
 package com.mygdx.game.view.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,7 +13,7 @@ import com.mygdx.game.view.listeners.MainScreenListener;
 import java.util.List;
 
 /**
- * Created by Kacper on 2017-05-14.
+ * This class belongs to the View. It handles drawing of everything in the main menu.
  */
 public class MainMenuScreen implements Screen {
     private Stage mainMenuStage;

@@ -8,7 +8,7 @@ import com.mygdx.game.model.Settings;
 import java.io.IOException;
 
 /**
- * Created by Kacper on 2017-05-16.
+ * This class handles Settings
  */
 public class SettingsManager {
     private Settings settings;
@@ -17,10 +17,16 @@ public class SettingsManager {
         loadSettings();
     }
 
+    /**
+     * Save current settings to json file
+     */
     void saveSettings(){
         settings.saveSettings();
     }
 
+    /**
+     * Load settings from json file if it exists
+     */
     private void loadSettings(){
             Json jsonParser = new Json();
             String jsonString = readJsonFromFile();
@@ -45,6 +51,9 @@ public class SettingsManager {
         settings.setMuteSetting(false);
     }
 
+    /**
+     * Reverse mute setting
+     */
     public void changeMuteSetting(){
         settings.setMuteSetting(!settings.isMute());
     }

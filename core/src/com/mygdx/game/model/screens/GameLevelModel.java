@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Kacper on 2017-05-14.
+ * This class holds all of the actual game data, like bricks positions, game objects etc.
  */
 public class GameLevelModel {
     private Label score;
@@ -41,6 +41,10 @@ public class GameLevelModel {
         createAndPrepareBricks();
     }
 
+    /**
+     *
+     * @param actors add to the list all the actors in the game
+     */
     public void getActors(List<Actor> actors){
         actors.clear();
         modelManager.getWorldManager().updateModelObjectsPositions();
@@ -61,7 +65,7 @@ public class GameLevelModel {
 
     private void createAndPreparePaddle(){
         paddle = new PaddleObject();
-        paddle.setWidth(110f);
+        paddle.setWidth(200f);
         paddle.setHeight(10f);
         paddle.setName("paddleActor");
     }
@@ -135,6 +139,9 @@ public class GameLevelModel {
         return brick;
     }
 
+    /**
+     * Reset model to starting state(basically resurrect all the bricks and ball if needed)
+     */
     public void resetModel(){
         for(BrickObject brick: bricks)
             brick.setDead(false);
@@ -172,6 +179,9 @@ public class GameLevelModel {
         bricksPositions.addAll(jsonParser.fromJson(bricksPositions.getClass(), jsonString));
     }
 
+    /**
+     * Save bricks positions to json file(default name: 'level0.json')
+     */
     public void saveBricksPositions(){
         String fileName = "level" + Integer.toString(level) + ".json";
         String jsonString = convertBrickPositionsToJson();

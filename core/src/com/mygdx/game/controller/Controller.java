@@ -5,9 +5,7 @@ import com.mygdx.game.model.ModelManager;
 import com.mygdx.game.view.ArcanoidGame;
 
 /**
- * <h1>Controller</h1>
  * This is main game controller. It handles all input delegated from listeners and callbacks model methods accordingly.
- * @author Kacper Kamiński
  *
  */
 public class Controller {
@@ -20,20 +18,33 @@ public class Controller {
         this.model = model;
     }
 
+    /**
+     * Set the View to control
+     */
     public void setGame(ArcanoidGame game){
         this.game = game;
     }
 
+    /**
+     * Create all managers
+     */
     public void createManagers(){
         screenManager = new ScreenManager(game, model);
         settingsManager = new SettingsManager();
-        System.out.println("done");
     }
 
+    /**
+     *
+     * @return Screen manager
+     */
     public ScreenManager getScreenManager() {
         return screenManager;
     }
 
+    /**
+     *
+     * @return Settings manager
+     */
     public SettingsManager getSettingsManager() {
         return settingsManager;
     }

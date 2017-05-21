@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Kacper on 2017-05-14.
+ * This class creates, manages and disposes of box2d physics simulation
  */
 public class WorldManager {
     private World physicsWorld;
@@ -32,11 +32,18 @@ public class WorldManager {
         physicsWorld.setContactListener(new ContactListener());
     }
 
-
+    /**
+     * Move the paddle to new horizontal position
+     * @param newX
+     */
     public void movePaddle(float newX){
         paddle.setTransform(newX/PIXELS_TO_METERS_RATIO, paddle.getPosition().y, paddle.getAngle());
     }
 
+    /**
+     * Create new physics simulation
+     * @param gameLevel model that will be simulated
+     */
     public void createGameLevelBody(GameLevelModel gameLevel){
         PaddleObject paddleModel = gameLevel.getPaddle();
         createPaddle(paddleModel);
@@ -262,8 +269,9 @@ public class WorldManager {
         return fixtureDef;
     }
 
-
-
+    /**
+     * Update positions of game objects in Model
+     */
     public void updateModelObjectsPositions(){
         Array<Body> bodies = new Array<Body>();
         physicsWorld.getBodies(bodies);
@@ -283,6 +291,9 @@ public class WorldManager {
         ((Actor)body.getUserData()).setPosition(newX, newY);
     }
 
+    /**
+     * Step box2d simulation
+     */
     public void stepPhysicsWorld(){
         physicsWorld.step(1f/60f, 6, 2);
         removeDeadBodies();
@@ -297,13 +308,18 @@ public class WorldManager {
                 body.setActive(false);
     }
 
+    /**
+     * Reset the ball to the starting position
+     */
     public void resetBall(){
         ball.setTransform(new Vector2(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 180/PIXELS_TO_METERS_RATIO), 0);
         ball.setLinearVelocity(0f, 0f);
         ballInMotion = false;
     }
 
-
+    /**
+     * Reset simulation to starting state
+     */
     public void addDeadBodiesAgain(){
         Array<Body> bodies = new Array<Body>();
         physicsWorld.getBodies(bodies);
@@ -318,11 +334,18 @@ public class WorldManager {
         }catch(NullPointerException e){return false;}
     }
 
+    /**
+     * Set the ball in motion
+     */
     public void setBallInMotion(){
         ball.setLinearVelocity(0f, -8f);
         ballInMotion = true;
     }
 
+    /**
+     * Check if ball is moving
+     * @return
+     */
     public boolean isBallInMotion(){
         return ballInMotion;
     }

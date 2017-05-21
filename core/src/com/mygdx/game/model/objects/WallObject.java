@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 
 /**
- * Created by Kacper on 2017-05-16.
+ * Model object containing wall's data
  */
 public class WallObject extends GameObject {
     private Sound hit;
@@ -12,6 +12,9 @@ public class WallObject extends GameObject {
         hit = Gdx.audio.newSound(Gdx.files.internal("ballWall.wav"));
     }
 
+    /**
+     * Play sound of ball hitting the wall
+     */
     public void playSound(){
         hit.play();
     }
