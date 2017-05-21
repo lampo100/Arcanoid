@@ -21,21 +21,18 @@ public class MainMenuScreen implements Screen {
     private Stage mainMenuStage;
     private ArcanoidGame game;
     private List<Actor> actors;
-    private Music music;
 
     public MainMenuScreen(ArcanoidGame game, ModelManager model){
         super();
         initializeAttributes(game);
         fetchActorsFromModel();
         addActorsToStage();
-        music.play();
+        model.playMusic();
     }
 
     private void initializeAttributes(ArcanoidGame game){
         mainMenuStage = new Stage(new ScreenViewport());
         this.game = game;
-        music = Gdx.audio.newMusic(Gdx.files.internal("music.wav"));
-        music.setLooping(true);
     }
 
     private void fetchActorsFromModel(){
@@ -52,6 +49,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(mainMenuStage);
+        Gdx.input.setCursorCatched(false);
     }
 
     @Override
@@ -89,6 +87,5 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         mainMenuStage.dispose();
-        music.dispose();
     }
 }

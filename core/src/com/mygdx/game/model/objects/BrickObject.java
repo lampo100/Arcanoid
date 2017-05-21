@@ -13,7 +13,7 @@ public class BrickObject extends GameObject{
 
     public BrickObject(){
         super();
-        this.setColor(88/255f, 14/255, 2/255, 1);
+        this.setColor(236/255f, 107/255, 107/255, 1);
         beep = Gdx.audio.newSound(Gdx.files.internal("beep.wav"));
     }
     @Override
@@ -29,6 +29,8 @@ public class BrickObject extends GameObject{
     @Override
     public void setDead(boolean dead) {
         super.setDead(dead);
-        beep.play();
+        if(dead)
+            beep.play();
     }
+
 }

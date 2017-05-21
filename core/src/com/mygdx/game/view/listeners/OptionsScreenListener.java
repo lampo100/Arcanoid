@@ -11,10 +11,10 @@ import com.mygdx.game.view.ArcanoidGame;
  * Created by Kacper on 2017-05-15.
  */
 public class OptionsScreenListener extends InputListener{
-    Game game;
+    ArcanoidGame game;
     Actor actor;
 
-    public OptionsScreenListener(Game game, Actor actor){
+    public OptionsScreenListener(ArcanoidGame game, Actor actor){
         super();
         this.game = game;
         this.actor = actor;
@@ -24,9 +24,10 @@ public class OptionsScreenListener extends InputListener{
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
         if(actor.getName().equals("mainMenuButton")){
             System.out.println("Changing to MainMenu");
-            ((ArcanoidGame)game).getController().getScreenManager().changeScreen("mainMenu");
+            game.getController().getScreenManager().changeScreen("mainMenu");
         }else if(actor.getName().equals("muteButton")){
-            ((ArcanoidGame)game).getController().getSettingsManager().changeMuteSetting();
+            game.getController().getSettingsManager().changeMuteSetting();
+            game.getModel().muteMusic();
         }
     }
 

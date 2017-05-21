@@ -53,9 +53,20 @@ public class GameLevelScreen implements Screen {
         }
     }
 
+    public void resetScreen(){
+        this.pause();
+        for(Actor actor: gameLevelStage.getActors())
+            actor.remove();
+        fetchActorsFromModel();
+        addActorsToStage();
+        this.resume();
+    }
+
     @Override
     public void show() {
         Gdx.input.setInputProcessor(gameLevelStage);
+//        Gdx.input.setCursorCatched(true);
+//        Gdx.input.setCursorPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
     }
 
     @Override
@@ -63,10 +74,12 @@ public class GameLevelScreen implements Screen {
         game.getModel().getWorldManager().stepPhysicsWorld();
         game.getModel().getWorldManager().updateModelObjectsPositions();
         removeDeadActorsFromStage();
+        if(playerWon())
+            game.getController().getScreenManager().changeScreen("youWin");
         clearBlack();
         gameLevelStage.act();
         gameLevelStage.draw();
-        debuger.render(game.getModel().getWorldManager().getWorld(), batch.getProjectionMatrix().cpy().scale(60, 60, 0));
+       // debuger.render(game.getModel().getWorldManager().getWorld(), batch.getProjectionMatrix().cpy().scale(60, 60, 0));
     }
 
     private void removeDeadActorsFromStage(){
@@ -74,6 +87,14 @@ public class GameLevelScreen implements Screen {
             if((actor.getClass().getGenericSuperclass().equals(GameObject.class))&&((GameObject)actor).isDead()){
                 actor.remove();
             }
+    }
+
+    private boolean playerWon(){
+        for(Actor actor: gameLevelStage.getActors())
+            if(actor.getName().equals("brick") && !((GameObject)actor).isDead()){
+                return false;
+            }
+        return true;
     }
 
     private void clearBlack(){

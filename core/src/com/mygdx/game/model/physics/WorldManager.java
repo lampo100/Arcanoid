@@ -23,7 +23,7 @@ public class WorldManager {
     private Body floor;
     private LinkedList<Body> bricks = new LinkedList<Body>();
     private float PIXELS_TO_METERS_RATIO = 60;
-    GameLevelModel currentModel;
+    private boolean ballInMotion = false;
 
     public World getWorld(){return physicsWorld;}
 
@@ -32,16 +32,12 @@ public class WorldManager {
         physicsWorld.setContactListener(new ContactListener());
     }
 
-    public void addNewBall(BallObject ball){
-        createBall(ball);
-    }
 
     public void movePaddle(float newX){
         paddle.setTransform(newX/PIXELS_TO_METERS_RATIO, paddle.getPosition().y, paddle.getAngle());
     }
 
     public void createGameLevelBody(GameLevelModel gameLevel){
-        currentModel = gameLevel;
         PaddleObject paddleModel = gameLevel.getPaddle();
         createPaddle(paddleModel);
         List<WallObject> wallsObjects = gameLevel.getWalls();
@@ -301,6 +297,21 @@ public class WorldManager {
                 body.setActive(false);
     }
 
+    public void resetBall(){
+        ball.setTransform(new Vector2(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 180/PIXELS_TO_METERS_RATIO), 0);
+        ball.setLinearVelocity(0f, 0f);
+        ballInMotion = false;
+    }
+
+
+    public void addDeadBodiesAgain(){
+        Array<Body> bodies = new Array<Body>();
+        physicsWorld.getBodies(bodies);
+        for(Body body: bodies)
+            if(bodyIsDead(body))
+                body.setActive(true);
+    }
+
     private boolean bodyIsDead(Body body){
         try{
             return ((GameObject)body.getUserData()).isDead();
@@ -309,6 +320,11 @@ public class WorldManager {
 
     public void setBallInMotion(){
         ball.setLinearVelocity(0f, -8f);
+        ballInMotion = true;
+    }
+
+    public boolean isBallInMotion(){
+        return ballInMotion;
     }
 
     public void dispose(){

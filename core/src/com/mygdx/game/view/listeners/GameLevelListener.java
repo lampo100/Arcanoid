@@ -10,7 +10,6 @@ import com.mygdx.game.view.ArcanoidGame;
  */
 public class GameLevelListener extends InputListener{
     private ArcanoidGame game;
-    private boolean ballInMotion = false;
 
     public GameLevelListener(ArcanoidGame game){
             super();
@@ -19,9 +18,8 @@ public class GameLevelListener extends InputListener{
 
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        if(!ballInMotion){
+        if(!game.getModel().getWorldManager().isBallInMotion()){
             game.getModel().getWorldManager().setBallInMotion();
-            ballInMotion = true;
         }
         return false;
     }
@@ -40,6 +38,12 @@ public class GameLevelListener extends InputListener{
             game.getModel().getGameLevelModel().getPaddle().setColor(0.78f, 0.3f, 0.1f, 1);
         if(keycode == Input.Keys.Z)
             game.getModel().getGameLevelModel().getPaddle().setColor(0.99f, 0.37f, 0.67f, 1);
+        if(keycode == Input.Keys.R){
+            game.getController().getScreenManager().pauseGameScreen();
+            game.getModel().resetGameLevel();
+            game.getController().getScreenManager().resumeGameScreen();
+            game.getController().getScreenManager().resetGameLevel();
+        }
         return true;
     }
 }

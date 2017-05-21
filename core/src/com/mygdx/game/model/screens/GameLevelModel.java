@@ -41,10 +41,6 @@ public class GameLevelModel {
         createAndPrepareBricks();
     }
 
-    public void createNewBall(){
-        createAndPrepareBall();
-    }
-
     public void getActors(List<Actor> actors){
         actors.clear();
         modelManager.getWorldManager().updateModelObjectsPositions();
@@ -116,6 +112,7 @@ public class GameLevelModel {
     }
 
     private void generateBricks(int bricksInRow, int levelsOfBricks){
+        int count = 0;
         float gameHeight = Gdx.graphics.getHeight();
         float gameWidth = Gdx.graphics.getWidth();
         float brickWidth = (gameWidth + 10f - bricksInRow*2*10f)/bricksInRow;
@@ -124,7 +121,9 @@ public class GameLevelModel {
             for(float x = 10f; x <= gameWidth - brickWidth - 10f; x+= brickWidth + 10f){
                 bricks.add(createBrick(x, y, brickWidth, brickHeight));
                 bricksPositions.add(new Vector2(x, y));
+                count++;
             }
+
     }
 
     private BrickObject createBrick(float x, float y, float width, float height){
@@ -134,6 +133,12 @@ public class GameLevelModel {
         brick.setHeight(height);
         brick.setName("brick");
         return brick;
+    }
+
+    public void resetModel(){
+        for(BrickObject brick: bricks)
+            brick.setDead(false);
+        ball.setDead(false);
     }
 
     public int getLevel(){return level;}

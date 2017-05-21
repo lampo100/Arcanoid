@@ -8,6 +8,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 public class PaddleObject extends GameObject {
 
+    public PaddleObject(){
+        super();
+        setColor(255f/255, 168f/255, 1f/255, 1f);
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.end();

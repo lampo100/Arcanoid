@@ -6,6 +6,7 @@ import com.mygdx.game.view.ArcanoidGame;
 import com.mygdx.game.view.screens.GameLevelScreen;
 import com.mygdx.game.view.screens.MainMenuScreen;
 import com.mygdx.game.view.screens.OptionsScreen;
+import com.mygdx.game.view.screens.YouWinScreen;
 
 /**
  * Created by Kacper on 2017-05-15.
@@ -14,6 +15,7 @@ public class ScreenManager {
     private MainMenuScreen mainMenuScreen;
     private GameLevelScreen gameLevelScreen;
     private OptionsScreen optionsScreen;
+    private YouWinScreen youWinScreen;
     private ArcanoidGame game;
     private ModelManager model;
 
@@ -30,13 +32,33 @@ public class ScreenManager {
             game.setScreen(getOptionsScreen());
         }else if(which.equals("gameLevel")){
             game.setScreen(getGameLevelScreen());
+        }else if(which.equals("youWin")){
+            game.setScreen(getYouWinScreen());
         }
+    }
+
+    public void pauseGameScreen(){
+        gameLevelScreen.pause();
+    }
+
+    public void resumeGameScreen(){
+        gameLevelScreen.resume();
+    }
+
+    public void resetGameLevel(){
+        gameLevelScreen.resetScreen();
     }
 
     private MainMenuScreen getMainMenuScreen() {
         if(mainMenuScreen == null)
             mainMenuScreen = new MainMenuScreen(game, model);
         return mainMenuScreen;
+    }
+
+    private YouWinScreen getYouWinScreen() {
+        if(youWinScreen == null)
+            youWinScreen = new YouWinScreen(game, model);
+        return youWinScreen;
     }
 
     public void setMainMenuScreen(MainMenuScreen mainMenuScreen) {
@@ -72,5 +94,7 @@ public class ScreenManager {
             gameLevelScreen.dispose();
         if(optionsScreen != null)
             optionsScreen.dispose();
+        if(youWinScreen != null)
+            youWinScreen.dispose();
     }
 }

@@ -1,6 +1,8 @@
 package com.mygdx.game.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.model.physics.WorldManager;
@@ -20,6 +22,8 @@ public class ModelManager {
     private OptionsModel optionsModel;
     private Skin gameSkin;
     private WorldManager worldManager;
+    private Music music;
+
 
 
 
@@ -29,6 +33,7 @@ public class ModelManager {
         worldManager = new WorldManager();
         gameLevelModel = new GameLevelModel(this);
         optionsModel = new OptionsModel(this);
+        music = Gdx.audio.newMusic(Gdx.files.internal("music.wav"));
     }
 
     public Skin getGameSkin() {
@@ -55,6 +60,11 @@ public class ModelManager {
         return actors;
     }
 
+    public void resetGameLevel(){
+        worldManager.resetBall();
+        worldManager.addDeadBodiesAgain();
+        gameLevelModel.resetModel();
+    }
 
     public void createPhysicalGameLevel(){
         worldManager.createGameLevelBody(gameLevelModel);
@@ -64,9 +74,20 @@ public class ModelManager {
 
     public GameLevelModel getGameLevelModel(){return gameLevelModel;}
 
+    public void muteMusic(){
+        music.setVolume(0f);
+    }
+
+    public void playMusic(){
+        music.setVolume(0.2f);
+        music.setLooping(true);
+        music.play();
+    }
+
     public void dispose(){
         gameSkin.dispose();
         gameLevelModel.saveBricksPositions();
+        music.dispose();
     }
 
 

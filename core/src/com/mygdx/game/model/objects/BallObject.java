@@ -2,6 +2,7 @@ package com.mygdx.game.model.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -24,6 +25,7 @@ public class BallObject extends GameObject {
         super();
         this.radius = radius;
         gameOver = Gdx.audio.newSound(Gdx.files.internal("gameOver.wav"));
+        setColor(new Color(55f/255, 244f/255, 46f/255, 1f));
     }
 
     @Override
@@ -39,6 +41,7 @@ public class BallObject extends GameObject {
     @Override
     public void setDead(boolean dead) {
         super.setDead(dead);
-        gameOver.play();
+        if(dead)
+            gameOver.play();
     }
 }

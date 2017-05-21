@@ -3,6 +3,7 @@ package com.mygdx.game.model.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.model.objects.GameObject;
+import com.mygdx.game.model.objects.WallObject;
 import com.mygdx.game.view.ArcanoidGame;
 
 import java.util.Random;
@@ -20,21 +21,23 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
         String secondName = getNameFromBody(secondBody);
         if(firstName.equals("floor")){
             ((GameObject)secondBody.getUserData()).setDead(true);
-        }
-        if(secondName.equals("floor")) {
+        }else if(secondName.equals("floor")) {
             ((GameObject) firstBody.getUserData()).setDead(true);
-        }
-        if(firstName.equals("brick")){
+        }else if(firstName.equals("brick")){
             ((GameObject)firstBody.getUserData()).setDead(true);
             addRandomnessToLinearVelocity(secondBody);
         }else if(secondName.equals("brick")){
             ((GameObject)secondBody.getUserData()).setDead(true);
             addRandomnessToLinearVelocity(firstBody);
-        }
-        if(firstName.equals("paddleActor")){
+        }else if(firstName.equals("paddleActor")){
             addRandomnessToLinearVelocity(secondBody);
         }else if(secondName.equals("paddleActor")){
             addRandomnessToLinearVelocity(firstBody);
+        }else{
+            if(((GameObject)firstBody.getUserData()).getClass() == WallObject.class)
+                ((WallObject)firstBody.getUserData()).playSound();
+            else
+                ((WallObject)secondBody.getUserData()).playSound();
         }
     }
 
@@ -42,13 +45,13 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
         float xVelocity;
         float yVelocity;
         if(body.getLinearVelocity().x > 0)
-            xVelocity = getRandomFloat(8, 10);
+            xVelocity = getRandomFloat(10, 12);
         else
-            xVelocity = getRandomFloat(-10, -8);
+            xVelocity = getRandomFloat(-12, -10);
         if(body.getLinearVelocity().y > 0)
-            yVelocity = getRandomFloat(8, 10);
+            yVelocity = getRandomFloat(12, 14);
         else
-            yVelocity = getRandomFloat(-10, -8);
+            yVelocity = getRandomFloat(-14, -12);
             body.setLinearVelocity(xVelocity, yVelocity);
         System.out.println(xVelocity + ":" + yVelocity);
     }
