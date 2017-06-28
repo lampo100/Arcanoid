@@ -21,10 +21,6 @@ public class BallObject extends GameObject {
         return radius;
     }
 
-    public void setRadius(float radius) {
-        this.radius = radius;
-    }
-
     public BallObject(float radius){
         super();
         this.radius = radius;

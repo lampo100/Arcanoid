@@ -20,7 +20,8 @@ import java.util.List;
  * This class holds all of the actual game data, like bricks positions, game objects etc.
  */
 public class GameLevelModel {
-    private Label score;
+    private Label scoreLabel;
+    private float score;
     private int level = 0;
     private ModelManager modelManager;
 
@@ -48,19 +49,20 @@ public class GameLevelModel {
     public void getActors(List<Actor> actors){
         actors.clear();
         modelManager.getWorldManager().updateModelObjectsPositions();
-//        actors.add(score);
+        actors.add(scoreLabel);
         actors.add(paddle);
         actors.add(ball);
         actors.addAll(bricks);
     }
 
     private void createAndPrepareScore(){
-        score = new Label("Score: 0", modelManager.getGameSkin(), "default");
-        score.setPosition(40f, Gdx.graphics.getHeight() - 100f);
-        score.setWidth(100f);
-        score.setHeight(40f);
-        score.setName("scoreLabel");
-        score.setTouchable(Touchable.disabled);
+        score = 0;
+        scoreLabel = new Label("Score: " + score, modelManager.getGameSkin(), "default");
+        scoreLabel.setPosition(40f, Gdx.graphics.getHeight() - 40f);
+        scoreLabel.setWidth(100f);
+        scoreLabel.setHeight(40f);
+        scoreLabel.setName("scoreLabel");
+        scoreLabel.setTouchable(Touchable.disabled);
     }
 
     private void createAndPreparePaddle(){
@@ -112,7 +114,7 @@ public class GameLevelModel {
     }
 
     private void createFreshBricks(){
-        generateBricks(12, 15);
+        generateBricks(16, 12);
     }
 
     private void generateBricks(int bricksInRow, int levelsOfBricks){
@@ -146,6 +148,16 @@ public class GameLevelModel {
         for(BrickObject brick: bricks)
             brick.setDead(false);
         ball.setDead(false);
+        score = 0;
+        scoreLabel.setText("Score: 0");
+    }
+
+    public void addScore(float score){
+        Float currentScore = this.score;
+        currentScore += score;
+        this.score = currentScore;
+        this.scoreLabel.setText("Score: " + this.score);
+        System.out.println("Adding score: " + score);
     }
 
     public int getLevel(){return level;}

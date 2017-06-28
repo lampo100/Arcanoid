@@ -15,6 +15,7 @@ public class BrickObject extends GameObject{
         super();
         this.setColor(236/255f, 107/255, 107/255, 1);
         beep = Gdx.audio.newSound(Gdx.files.internal("beep.wav"));
+        score = 100f;
     }
     /**
      * Draw the brick using @see com.badlogic.gdx.graphics.glutils.ShapeRenderer

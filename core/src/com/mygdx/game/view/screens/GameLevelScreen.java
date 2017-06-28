@@ -81,8 +81,9 @@ public class GameLevelScreen implements Screen {
 
     private void removeDeadActorsFromStage(){
         for(Actor actor: gameLevelStage.getActors())
-            if((actor.getClass().getGenericSuperclass().equals(GameObject.class))&&((GameObject)actor).isDead()){
+            if(isGameObject(actor)&&((GameObject)actor).isDead()){
                 actor.remove();
+                game.getModel().getGameLevelModel().addScore(((GameObject) actor).getScore());
             }
     }
 
@@ -97,6 +98,10 @@ public class GameLevelScreen implements Screen {
                 return false;
             }
         return true;
+    }
+
+    private boolean isGameObject(Object objectToCheck){
+        return objectToCheck.getClass().getGenericSuperclass().equals(GameObject.class);
     }
 
     private void clearBlack(){

@@ -14,6 +14,7 @@ public class GameObject extends Actor {
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     private Color color = new Color(0f, 0f, 0f, 1);
     private boolean dead = false;
+    protected float score = 0;
 
     public boolean isDead() {
         return dead;
@@ -24,5 +25,7 @@ public class GameObject extends Actor {
     }
 
     public void setColor(Color color){this.color = color;}
+
+    public float getScore(){return score;}
 
 }

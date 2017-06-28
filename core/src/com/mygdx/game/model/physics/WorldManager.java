@@ -297,7 +297,6 @@ public class WorldManager {
     public void stepPhysicsWorld(){
         physicsWorld.step(1f/60f, 6, 2);
         removeDeadBodies();
-
     }
 
     private void removeDeadBodies(){

@@ -1,10 +1,9 @@
 package com.mygdx.game.model.physics;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.model.objects.BrickObject;
 import com.mygdx.game.model.objects.GameObject;
 import com.mygdx.game.model.objects.WallObject;
-import com.mygdx.game.view.ArcanoidGame;
 
 import java.util.Random;
 
@@ -49,18 +48,17 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
         float xVelocity;
         float yVelocity;
         if(body.getLinearVelocity().x > 0)
-            xVelocity = getRandomFloat(10, 12);
+            xVelocity = getRandomFloatFromNewRange(10, 12);
         else
-            xVelocity = getRandomFloat(-12, -10);
+            xVelocity = getRandomFloatFromNewRange(-12, -10);
         if(body.getLinearVelocity().y > 0)
-            yVelocity = getRandomFloat(12, 14);
+            yVelocity = getRandomFloatFromNewRange(12, 14);
         else
-            yVelocity = getRandomFloat(-14, -12);
+            yVelocity = getRandomFloatFromNewRange(-14, -12);
             body.setLinearVelocity(xVelocity, yVelocity);
-        System.out.println(xVelocity + ":" + yVelocity);
     }
 
-    private float getRandomFloat(float newMin, float newMax){
+    private float getRandomFloatFromNewRange(float newMin, float newMax){
         Random random = new Random();
         float oldRange = 1f;
         float newRange = (newMax - newMin);
