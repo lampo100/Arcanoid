@@ -114,22 +114,29 @@ public class GameLevelModel {
     }
 
     private void createFreshBricks(){
-        generateBricks(16, 12);
+        generateBricks(15, 17);
     }
 
     private void generateBricks(int bricksInRow, int levelsOfBricks){
-        int count = 0;
-        float gameHeight = Gdx.graphics.getHeight();
+        float halfGameHeight = Gdx.graphics.getHeight()/2f;
         float gameWidth = Gdx.graphics.getWidth();
-        float brickWidth = (gameWidth + 10f - bricksInRow*2*10f)/bricksInRow;
-        float brickHeight =  (gameHeight + 10f - levelsOfBricks*2*10f)/levelsOfBricks;
-        for(float y = gameHeight/2 + 5f; y <= gameHeight - 2*brickHeight - 5f; y+=brickHeight + 5f)
-            for(float x = 10f; x <= gameWidth - brickWidth - 10f; x+= brickWidth + 10f){
+
+        float horizontalGapLength = 10f;
+        float totalHorizontalGap = (1 + bricksInRow) * horizontalGapLength;
+        float verticalGapLength = 5f;
+        float totalVerticalGap = (1 + levelsOfBricks) * verticalGapLength;
+
+        float brickWidth = (gameWidth - totalHorizontalGap)/bricksInRow;
+        float brickHeight = (halfGameHeight - scoreLabel.getHeight() - totalVerticalGap)/levelsOfBricks;
+
+        float x = horizontalGapLength;
+        float y = halfGameHeight;
+        for(float j = 1; j <= levelsOfBricks; ++j, y += (brickHeight + verticalGapLength), x = horizontalGapLength){
+            for(float i = 1; i <= bricksInRow; ++i, x+= (brickWidth + horizontalGapLength) ){
                 bricks.add(createBrick(x, y, brickWidth, brickHeight));
                 bricksPositions.add(new Vector2(x, y));
-                count++;
             }
-
+        }
     }
 
     private BrickObject createBrick(float x, float y, float width, float height){

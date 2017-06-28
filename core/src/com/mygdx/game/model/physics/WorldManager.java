@@ -240,7 +240,7 @@ public class WorldManager {
     private BodyDef createBrickBodyDefinition(BrickObject brick){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set((brick.getX()+brick.getWidth()/2)/PIXELS_TO_METERS_RATIO, (brick.getY() + brick.getWidth()/2)/PIXELS_TO_METERS_RATIO);
+        bodyDef.position.set((brick.getX()+brick.getWidth()/2)/PIXELS_TO_METERS_RATIO, (brick.getY() + brick.getHeight()/2)/PIXELS_TO_METERS_RATIO);
         return bodyDef;
     }
 
