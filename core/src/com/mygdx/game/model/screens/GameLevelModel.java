@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.model.ModelManager;
 import com.mygdx.game.model.objects.*;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -106,8 +107,10 @@ public class GameLevelModel {
     }
 
     private void loadBricksPositions(){
-        bricksPositions = modelManager.getFileHandler().loadBricksPositions(0);
-        bricksProperties = modelManager.getFileHandler().loadBricksProperties(0);
+        try{
+            bricksPositions = modelManager.getFileHandler().loadBricksPositions(0);
+            bricksProperties = modelManager.getFileHandler().loadBricksProperties(0);
+        }catch(IOException ignored){}
     }
 
     private void createBricksFromBricksPositions(){

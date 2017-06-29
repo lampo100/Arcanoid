@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.model.objects.BrickProperties;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,23 +31,32 @@ public class FileHandler {
         return jsonParser.toJson(brickProperties);
     }
 
-    public List<Vector2> loadBricksPositions(int level){
+    public List<Vector2> loadBricksPositions(int level) throws IOException{
         Json jsonParser = new Json();
-        String jsonString = readJsonFromFile("level" + Integer.toString(level) + ".json");
+        try{
+            String jsonString = readJsonFromFile("level" + Integer.toString(level) + ".json");
 
-        List<Vector2> positions = new LinkedList<Vector2>();
-        positions.clear();
-        positions.addAll(jsonParser.fromJson(positions.getClass(), jsonString));
-        return positions;
+            List<Vector2> positions = new LinkedList<Vector2>();
+            positions.clear();
+            positions.addAll(jsonParser.fromJson(positions.getClass(), jsonString));
+            return positions;
+        }catch(IOException e){
+            throw e;
+        }
     }
 
-    public List<BrickProperties> loadBricksProperties(int level){
+    public List<BrickProperties> loadBricksProperties(int level) throws IOException{
         Json jsonParser = new Json();
-        String jsonString = readJsonFromFile("level" + Integer.toString(level) + "bricksProperties.json");
+        try{
+            String jsonString = readJsonFromFile("level" + Integer.toString(level) + "bricksProperties.json");
 
-        List<BrickProperties> properties = new LinkedList<>();
-        properties.addAll(jsonParser.fromJson(properties.getClass(), jsonString));
-        return properties;
+            List<BrickProperties> properties = new LinkedList<>();
+            properties.addAll(jsonParser.fromJson(properties.getClass(), jsonString));
+            return properties;
+        }catch(IOException e){
+            throw e;
+        }
+
     }
 
     private String convertBrickPositionsToJson(List<Vector2> positions){
@@ -59,8 +69,13 @@ public class FileHandler {
         handle.writeString(jsonString, false);
     }
 
-    private String readJsonFromFile(String fileName){
-        FileHandle handle = Gdx.files.internal( fileName);
-        return handle.readString();
+    private String readJsonFromFile(String fileName) throws IOException{
+        try{
+            FileHandle handle = Gdx.files.internal( fileName);
+            return handle.readString();
+        }catch(Exception e){
+            System.out.println("dsd");
+            throw new IOException("File does not exist.");
+        }
     }
 }
