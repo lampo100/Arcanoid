@@ -6,19 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.model.ModelManager;
-import com.mygdx.game.model.objects.BallObject;
-import com.mygdx.game.model.objects.BrickObject;
-import com.mygdx.game.model.objects.PaddleObject;
-import com.mygdx.game.model.objects.WallObject;
+import com.mygdx.game.model.objects.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * This class holds all of the actual game data, like bricks positions, game objects etc.
- */
 public class GameLevelModel {
     private Label scoreLabel;
     private float score;
@@ -27,6 +20,7 @@ public class GameLevelModel {
 
     private List<BrickObject> bricks = new LinkedList<BrickObject>();
     private List<Vector2> bricksPositions = new LinkedList<Vector2>();
+    private List<BrickProperties> bricksProperties = new LinkedList<BrickProperties>();
 
     private PaddleObject paddle;
     private BallObject ball;
@@ -42,10 +36,6 @@ public class GameLevelModel {
         createAndPrepareBricks();
     }
 
-    /**
-     *
-     * @param actors add to the list all the actors in the game
-     */
     public void getActors(List<Actor> actors){
         actors.clear();
         modelManager.getWorldManager().updateModelObjectsPositions();
@@ -108,13 +98,29 @@ public class GameLevelModel {
     }
 
     private void createAndPrepareBricks(){
-        //loadBricksPositions();
+        loadBricksPositions();
         if(bricksPositions.isEmpty())
             createFreshBricks();
+        else
+            createBricksFromBricksPositions();
+    }
+
+    private void loadBricksPositions(){
+        bricksPositions = modelManager.getFileHandler().loadBricksPositions(0);
+        bricksProperties = modelManager.getFileHandler().loadBricksProperties(0);
+    }
+
+    private void createBricksFromBricksPositions(){
+        int i = 0;
+        for(Vector2 position: bricksPositions) {
+            bricks.add(createBrick(position.x, position.y,
+                    bricksProperties.get(i).getWidth(), bricksProperties.get(i).getHeight()));
+            ++i;
+        }
     }
 
     private void createFreshBricks(){
-        generateBricks(15, 17);
+        generateBricks(3, 2);
     }
 
     private void generateBricks(int bricksInRow, int levelsOfBricks){
@@ -135,6 +141,7 @@ public class GameLevelModel {
             for(float i = 1; i <= bricksInRow; ++i, x+= (brickWidth + horizontalGapLength) ){
                 bricks.add(createBrick(x, y, brickWidth, brickHeight));
                 bricksPositions.add(new Vector2(x, y));
+                bricksProperties.add(new BrickProperties(brickWidth, brickHeight));
             }
         }
     }
@@ -148,9 +155,6 @@ public class GameLevelModel {
         return brick;
     }
 
-    /**
-     * Reset model to starting state(basically resurrect all the bricks and ball if needed)
-     */
     public void resetModel(){
         for(BrickObject brick: bricks)
             brick.setDead(false);
@@ -189,36 +193,11 @@ public class GameLevelModel {
         return walls;
     }
 
-    //TODO encapsulate these loading methods into another class(do the same for Settings and SettingsManager)
-
-    private void loadBricksPositions(){
-        Json jsonParser = new Json();
-        String jsonString = readJsonFromFile("level" + Integer.toString(level) + ".json");
-        bricksPositions.clear();
-        bricksPositions.addAll(jsonParser.fromJson(bricksPositions.getClass(), jsonString));
+    public List<Vector2> getBricksPositions() {
+        return bricksPositions;
     }
 
-    /**
-     * Save bricks positions to json file(default name: 'level0.json')
-     */
-    public void saveBricksPositions(){
-        String fileName = "level" + Integer.toString(level) + ".json";
-        String jsonString = convertBrickPositionsToJson();
-        saveToFile(jsonString, fileName);
-    }
-
-    private String convertBrickPositionsToJson(){
-        Json jsonParser = new Json();
-        return jsonParser.toJson(bricksPositions);
-    }
-
-    private void saveToFile(String jsonString, String filename){
-        FileHandle handle = Gdx.files.local(filename);
-        handle.writeString(jsonString, false);
-    }
-
-    private String readJsonFromFile(String fileName){
-        FileHandle handle = Gdx.files.internal( fileName);
-        return handle.readString();
+    public List<BrickProperties> getBricksProperties() {
+        return bricksProperties;
     }
 }

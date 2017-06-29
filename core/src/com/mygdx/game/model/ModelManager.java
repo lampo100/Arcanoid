@@ -12,22 +12,18 @@ import com.mygdx.game.model.screens.OptionsModel;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * This is the main Model class. It holds all the data in the game that doesn't belong to the view and manages it
- */
 public class ModelManager {
     private MainMenuModel mainMenuModel;
     private GameLevelModel gameLevelModel;
     private OptionsModel optionsModel;
+    private FileHandler fileHandler;
     private Skin gameSkin;
     private WorldManager worldManager;
     private Music music;
 
-    /**
-     * Initialize all the game data.
-     */
     public void initializeModelManager(){
         gameSkin = new Skin(Gdx.files.internal("quantum-horizon-ui.json"));
+        fileHandler = new FileHandler();
         mainMenuModel = new MainMenuModel(this);
         worldManager = new WorldManager();
         gameLevelModel = new GameLevelModel(this);
@@ -35,22 +31,10 @@ public class ModelManager {
         music = Gdx.audio.newMusic(Gdx.files.internal("music.wav"));
     }
 
-    /**
-     *
-     * @return current game skin
-     */
     public Skin getGameSkin() {
         return gameSkin;
     }
 
-    /**
-     *
-     * @param screenName
-     * Whose actors should the function return
-     * @return
-     * Return list of all actors
-     *
-     */
     public List<Actor> getActorsFromScreen(String screenName){
         List<Actor> actors = new LinkedList<Actor>();
         if(screenName.equals("MainMenuScreen")){
@@ -63,30 +47,23 @@ public class ModelManager {
         return actors;
     }
 
-    /**
-     * Reset the game
-     */
     public void resetGameLevel(){
         worldManager.resetBall();
         worldManager.addDeadBodiesAgain();
         gameLevelModel.resetModel();
     }
 
-    /**
-     * Create box2d physics simulation
-     */
     public void createPhysicalGameLevel(){
         worldManager.createGameLevelBody(gameLevelModel);
     }
 
-    /**
-     *
-     * @return box2d simulation manager
-     */
     public WorldManager getWorldManager(){return worldManager;}
 
-
     public GameLevelModel getGameLevelModel(){return gameLevelModel;}
+
+    public FileHandler getFileHandler() {
+        return fileHandler;
+    }
 
     public void muteMusic(){
         music.setVolume(0f);
@@ -100,7 +77,8 @@ public class ModelManager {
 
     public void dispose(){
         gameSkin.dispose();
-        gameLevelModel.saveBricksPositions();
+        fileHandler.saveBricksPositions(gameLevelModel.getLevel(), gameLevelModel.getBricksPositions());
+        fileHandler.saveBricksProperties(gameLevelModel.getLevel(), gameLevelModel.getBricksProperties());
         music.dispose();
     }
 }
