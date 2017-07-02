@@ -8,9 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.game.model.ModelManager;
 import com.mygdx.game.view.ArcanoidGame;
 
-/**
- * This class handles input events in main menu.
- */
 public class MainScreenListener extends InputListener {
     private Game game;
     private Actor actor;
@@ -21,9 +18,6 @@ public class MainScreenListener extends InputListener {
         this.actor = actor;
     }
 
-    /**
-     * Handle events fired by buttons
-     */
     @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
         if(actor.getName().equals("playButton")){

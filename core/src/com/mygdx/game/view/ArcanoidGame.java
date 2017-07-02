@@ -4,23 +4,11 @@ import com.badlogic.gdx.Game;
 import com.mygdx.game.controller.Controller;
 import com.mygdx.game.model.ModelManager;
 
-/**
- * This is main game class that is also main view class. When the game
- * is loaded game cycle begins here.
- * @author Kacper Kamiński
- */
 public class ArcanoidGame extends Game{
 
     private final ModelManager model;
     private final Controller controller;
 
-    /**
-     *
-     * @param model
-     * Model containing data for our view.
-     * @param controller
-     * Controller that will handle input.
-     */
     public ArcanoidGame(ModelManager model, Controller controller){
         super();
         this.model = model;

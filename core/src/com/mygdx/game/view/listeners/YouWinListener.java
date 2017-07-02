@@ -5,9 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.game.view.ArcanoidGame;
 
-/**
- * This class handles input events in "You win" screen.
- */
 public class YouWinListener extends InputListener{
     private ArcanoidGame game;
 
@@ -16,9 +13,6 @@ public class YouWinListener extends InputListener{
         this.game = game;
     }
 
-    /**
-     * Press r to restart the game, escape to go to the main menu.
-     */
     @Override
     public boolean keyUp(InputEvent event, int keycode) {
         if(keycode == Input.Keys.ESCAPE){
