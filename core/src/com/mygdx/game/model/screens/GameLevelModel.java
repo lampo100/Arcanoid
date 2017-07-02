@@ -123,7 +123,7 @@ public class GameLevelModel {
     }
 
     private void createFreshBricks(){
-        generateBricks(3, 2);
+        generateBricks(12, 8);
     }
 
     private void generateBricks(int bricksInRow, int levelsOfBricks){

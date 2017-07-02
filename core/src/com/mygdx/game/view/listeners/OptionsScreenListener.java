@@ -7,9 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.game.model.ModelManager;
 import com.mygdx.game.view.ArcanoidGame;
 
-/**
- * This function handels input events in options.
- */
 public class OptionsScreenListener extends InputListener{
     private ArcanoidGame game;
     private Actor actor;
@@ -20,18 +17,23 @@ public class OptionsScreenListener extends InputListener{
         this.actor = actor;
     }
 
-    /**
-     * Handle mouse left button's clicks.
-     */
     @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
         if(actor.getName().equals("mainMenuButton")){
             System.out.println("Changing to MainMenu");
             game.getController().getScreenManager().changeScreen("mainMenu");
         }else if(actor.getName().equals("muteButton")){
-            game.getController().getSettingsManager().changeMuteSetting();
+            reverseMuteSetting();
+        }
+    }
+
+    private void reverseMuteSetting(){
+        if(game.getController().getSettingsManager().isGameMuted()){
+            game.getModel().playMusic();
+        }else{
             game.getModel().muteMusic();
         }
+        game.getController().getSettingsManager().changeMuteSetting();
     }
 
     @Override

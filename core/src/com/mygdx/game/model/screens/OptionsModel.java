@@ -10,9 +10,6 @@ import com.mygdx.game.model.ModelManager;
 
 import java.util.List;
 
-/**
- * This class holds all the data in options(things like buttons positions, etc.)
- */
 public class OptionsModel {
     private ModelManager modelManager;
     private Label title;
@@ -29,10 +26,6 @@ public class OptionsModel {
         createAndPrepareBackground();
     }
 
-    /**
-     * Add to the list all the actors in options
-     * @param actors
-     */
     public void getActors(List<Actor> actors){
         actors.clear();
         actors.add(background);
