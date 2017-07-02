@@ -117,7 +117,7 @@ public class GameLevelModel {
         int i = 0;
         for(Vector2 position: bricksPositions) {
             bricks.add(createBrick(position.x, position.y,
-                    bricksProperties.get(i).getWidth(), bricksProperties.get(i).getHeight()));
+                    bricksProperties.get(i).getWidth(), bricksProperties.get(i).getHeight(), 2.0f));
             ++i;
         }
     }
@@ -142,25 +142,28 @@ public class GameLevelModel {
         float y = halfGameHeight;
         for(float j = 1; j <= levelsOfBricks; ++j, y += (brickHeight + verticalGapLength), x = horizontalGapLength){
             for(float i = 1; i <= bricksInRow; ++i, x+= (brickWidth + horizontalGapLength) ){
-                bricks.add(createBrick(x, y, brickWidth, brickHeight));
+                float life = j<3 ? 2.0f : 1.0f;
+                bricks.add(createBrick(x, y, brickWidth, brickHeight, life));
                 bricksPositions.add(new Vector2(x, y));
                 bricksProperties.add(new BrickProperties(brickWidth, brickHeight));
             }
         }
     }
 
-    private BrickObject createBrick(float x, float y, float width, float height){
+    private BrickObject createBrick(float x, float y, float width, float height, float life){
         BrickObject brick = new BrickObject();
         brick.setPosition(x, y);
         brick.setWidth(width);
         brick.setHeight(height);
         brick.setName("brick");
+        brick.setOriginalLife(life);
         return brick;
     }
 
     public void resetModel(){
-        for(BrickObject brick: bricks)
-            brick.setDead(false);
+        for(BrickObject brick: bricks){
+            brick.reviveBrick();
+        }
         ball.setDead(false);
         score = 0;
         scoreLabel.setText("Score: 0");

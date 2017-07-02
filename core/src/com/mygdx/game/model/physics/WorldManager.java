@@ -47,11 +47,14 @@ public class WorldManager {
     public void createGameLevelBody(GameLevelModel gameLevel){
         PaddleObject paddleModel = gameLevel.getPaddle();
         createPaddle(paddleModel);
+
         List<WallObject> wallsObjects = gameLevel.getWalls();
         createWalls(wallsObjects);
         createFloor();
+
         BallObject ballModel = gameLevel.getBall();
         createBall(ballModel);
+
         List<BrickObject> brickObjects = gameLevel.getBricks();
         createBricks(brickObjects);
     }
@@ -198,13 +201,13 @@ public class WorldManager {
     private BodyDef createFloorBodyDefinition(){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 0);
+        bodyDef.position.set(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 0/PIXELS_TO_METERS_RATIO);
         return bodyDef;
     }
 
     private Shape createFloorShape(){
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 1/PIXELS_TO_METERS_RATIO);
+        shape.setAsBox(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 10/PIXELS_TO_METERS_RATIO);
         return shape;
     }
 

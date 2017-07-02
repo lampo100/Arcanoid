@@ -16,6 +16,7 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
         Body secondBody = contact.getFixtureB().getBody();
         String firstName = getNameFromBody(firstBody);
         String secondName = getNameFromBody(secondBody);
+        System.out.println("Contact");
         if(firstName.equals("floor")){
             ((GameObject)secondBody.getUserData()).setDead(true);
         }else if(secondName.equals("floor")) {

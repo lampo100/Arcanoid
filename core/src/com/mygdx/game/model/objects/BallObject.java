@@ -40,7 +40,9 @@ public class BallObject extends GameObject {
     @Override
     public void setDead(boolean dead) {
         super.setDead(dead);
-        if(dead)
+        if(dead){
+            System.out.println("playing sound");
             gameOver.play();
+        }
     }
 }

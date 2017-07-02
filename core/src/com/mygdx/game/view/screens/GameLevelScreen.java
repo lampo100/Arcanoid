@@ -15,9 +15,6 @@ import com.mygdx.game.view.listeners.GameLevelListener;
 
 import java.util.List;
 
-/**
- * This class belongs to the View. It handles drawing of everything in game.
- */
 public class GameLevelScreen implements Screen {
     private ArcanoidGame game;
     private Stage gameLevelStage;
@@ -73,7 +70,7 @@ public class GameLevelScreen implements Screen {
         clearBlack();
         gameLevelStage.act();
         gameLevelStage.draw();
-       // debuger.render(game.getModel().getWorldManager().getWorld(), batch.getProjectionMatrix().cpy().scale(60, 60, 0));
+        debuger.render(game.getModel().getWorldManager().getWorld(), batch.getProjectionMatrix().cpy().scale(60, 60, 0));
     }
 
     private void removeDeadActorsFromStage(){
