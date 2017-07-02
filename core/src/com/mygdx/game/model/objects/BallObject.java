@@ -6,31 +6,27 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-/**
- * Model object containing ball's data
- */
 public class BallObject extends GameObject {
     private float radius;
     private Sound gameOver;
+    private float damage;
 
-    /**
-     *
-     * @return ball radius
-     */
     public float getRadius() {
         return radius;
+    }
+
+    public float getDamage(){
+        return damage;
     }
 
     public BallObject(float radius){
         super();
         this.radius = radius;
+        damage = 1f;
         gameOver = Gdx.audio.newSound(Gdx.files.internal("gameOver.wav"));
         setColor(new Color(55f/255, 244f/255, 46f/255, 1f));
     }
 
-    /**
-     * Draw the ball using @see com.badlogic.gdx.graphics.glutils.ShapeRenderer
-     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.end();
@@ -41,9 +37,6 @@ public class BallObject extends GameObject {
         batch.begin();
     }
 
-    /**
-     * Set the ball as dead and play sound
-     */
     @Override
     public void setDead(boolean dead) {
         super.setDead(dead);

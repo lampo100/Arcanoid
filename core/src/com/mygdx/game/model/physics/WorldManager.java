@@ -269,9 +269,6 @@ public class WorldManager {
         return fixtureDef;
     }
 
-    /**
-     * Update positions of game objects in Model
-     */
     public void updateModelObjectsPositions(){
         Array<Body> bodies = new Array<Body>();
         physicsWorld.getBodies(bodies);
@@ -291,9 +288,6 @@ public class WorldManager {
         ((Actor)body.getUserData()).setPosition(newX, newY);
     }
 
-    /**
-     * Step box2d simulation
-     */
     public void stepPhysicsWorld(){
         physicsWorld.step(1f/60f, 6, 2);
         removeDeadBodies();
@@ -307,18 +301,12 @@ public class WorldManager {
                 body.setActive(false);
     }
 
-    /**
-     * Reset the ball to the starting position
-     */
     public void resetBall(){
         ball.setTransform(new Vector2(Gdx.graphics.getWidth()/(2*PIXELS_TO_METERS_RATIO), 180/PIXELS_TO_METERS_RATIO), 0);
         ball.setLinearVelocity(0f, 0f);
         ballInMotion = false;
     }
 
-    /**
-     * Reset simulation to starting state
-     */
     public void addDeadBodiesAgain(){
         Array<Body> bodies = new Array<Body>();
         physicsWorld.getBodies(bodies);
@@ -333,18 +321,11 @@ public class WorldManager {
         }catch(NullPointerException e){return false;}
     }
 
-    /**
-     * Set the ball in motion
-     */
     public void setBallInMotion(){
         ball.setLinearVelocity(0f, -8f);
         ballInMotion = true;
     }
 
-    /**
-     * Check if ball is moving
-     * @return
-     */
     public boolean isBallInMotion(){
         return ballInMotion;
     }

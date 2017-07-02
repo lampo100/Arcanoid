@@ -5,21 +5,18 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-/**
- * Model object containing brick's data
- */
 public class BrickObject extends GameObject{
     private Sound beep;
+    private float life;
 
     public BrickObject(){
         super();
         this.setColor(236/255f, 107/255, 107/255, 1);
         beep = Gdx.audio.newSound(Gdx.files.internal("beep.wav"));
         score = 100f;
+        life = 1f;
     }
-    /**
-     * Draw the brick using @see com.badlogic.gdx.graphics.glutils.ShapeRenderer
-     */
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.end();
@@ -30,9 +27,14 @@ public class BrickObject extends GameObject{
         batch.begin();
     }
 
-    /**
-     * Set the brick as dead and play sound
-     */
+    public float getRemainingLife(){
+        return life;
+    }
+
+    public void receiveDamage(float amount){
+        life-=amount;
+    }
+
     @Override
     public void setDead(boolean dead) {
         super.setDead(dead);

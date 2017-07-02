@@ -49,9 +49,6 @@ public class GameLevelScreen implements Screen {
         }
     }
 
-    /**
-     * Restart the game
-     */
     public void resetScreen(){
         this.pause();
         for(Actor actor: gameLevelStage.getActors())
@@ -87,11 +84,6 @@ public class GameLevelScreen implements Screen {
             }
     }
 
-    /**
-     * Check if player has already won.
-     * @return
-     * false if player hasn't won and true if he has
-     */
     private boolean playerWon(){
         for(Actor actor: gameLevelStage.getActors())
             if(actor.getName().equals("brick") && !((GameObject)actor).isDead()){

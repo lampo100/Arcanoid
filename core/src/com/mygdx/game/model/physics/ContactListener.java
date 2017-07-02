@@ -1,21 +1,15 @@
 package com.mygdx.game.model.physics;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.model.objects.BallObject;
 import com.mygdx.game.model.objects.BrickObject;
 import com.mygdx.game.model.objects.GameObject;
 import com.mygdx.game.model.objects.WallObject;
 
 import java.util.Random;
 
-/**
- * Listener for the box2d simulation. Handles collisions.
- */
 public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactListener {
 
-    /**
-     * Handles ball-wall, ball-brick, ball-paddle and ball-floor collisions. adds random force to the ball on contact with paddle and brick
-     * @param contact
-     */
     @Override
     public void beginContact(Contact contact) {
         Body firstBody = contact.getFixtureA().getBody();
@@ -27,10 +21,12 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
         }else if(secondName.equals("floor")) {
             ((GameObject) firstBody.getUserData()).setDead(true);
         }else if(firstName.equals("brick")){
-            ((GameObject)firstBody.getUserData()).setDead(true);
+            dealDamageToBrick((BrickObject) firstBody.getUserData(), ((BallObject) secondBody.getUserData()).getDamage());
+            killBrickIfBelowZeroLife((BrickObject) firstBody.getUserData());
             addRandomnessToLinearVelocity(secondBody);
         }else if(secondName.equals("brick")){
-            ((GameObject)secondBody.getUserData()).setDead(true);
+            dealDamageToBrick((BrickObject) secondBody.getUserData(), ((BallObject) firstBody.getUserData()).getDamage());
+            killBrickIfBelowZeroLife((BrickObject) secondBody.getUserData());
             addRandomnessToLinearVelocity(firstBody);
         }else if(firstName.equals("paddleActor")){
             addRandomnessToLinearVelocity(secondBody);
@@ -42,6 +38,15 @@ public class ContactListener implements com.badlogic.gdx.physics.box2d.ContactLi
             else
                 ((WallObject)secondBody.getUserData()).playSound();
         }
+    }
+
+    private void dealDamageToBrick(BrickObject brick, float damage){
+        brick.receiveDamage(damage);
+    }
+
+    private void killBrickIfBelowZeroLife(BrickObject brick){
+        if(brick.getRemainingLife() <= 0)
+            brick.setDead(true);
     }
 
     private void addRandomnessToLinearVelocity(Body body){
