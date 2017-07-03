@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * This class creates, manages and disposes of box2d physics simulation
- */
 public class WorldManager {
     private World physicsWorld;
     private Body paddle;
@@ -32,18 +29,10 @@ public class WorldManager {
         physicsWorld.setContactListener(new ContactListener());
     }
 
-    /**
-     * Move the paddle to new horizontal position
-     * @param newX
-     */
     public void movePaddle(float newX){
         paddle.setTransform(newX/PIXELS_TO_METERS_RATIO, paddle.getPosition().y, paddle.getAngle());
     }
 
-    /**
-     * Create new physics simulation
-     * @param gameLevel model that will be simulated
-     */
     public void createGameLevelBody(GameLevelModel gameLevel){
         PaddleObject paddleModel = gameLevel.getPaddle();
         createPaddle(paddleModel);

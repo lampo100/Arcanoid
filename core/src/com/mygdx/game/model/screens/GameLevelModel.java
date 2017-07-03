@@ -127,7 +127,7 @@ public class GameLevelModel {
     }
 
     private void generateBricks(int bricksInRow, int levelsOfBricks){
-        float halfGameHeight = Gdx.graphics.getHeight()/2f;
+        float bricksBeginningHeight = Gdx.graphics.getHeight()/1.56f;
         float gameWidth = Gdx.graphics.getWidth();
 
         float horizontalGapLength = 10f;
@@ -136,10 +136,10 @@ public class GameLevelModel {
         float totalVerticalGap = (1 + levelsOfBricks) * verticalGapLength;
 
         float brickWidth = (gameWidth - totalHorizontalGap)/bricksInRow;
-        float brickHeight = (halfGameHeight - scoreLabel.getHeight() - totalVerticalGap)/levelsOfBricks;
+        float brickHeight = ((Gdx.graphics.getHeight() - bricksBeginningHeight) - scoreLabel.getHeight() - totalVerticalGap)/levelsOfBricks;
 
         float x = horizontalGapLength;
-        float y = halfGameHeight;
+        float y = bricksBeginningHeight;
         for(float j = 1; j <= levelsOfBricks; ++j, y += (brickHeight + verticalGapLength), x = horizontalGapLength){
             for(float i = 1; i <= bricksInRow; ++i, x+= (brickWidth + horizontalGapLength) ){
                 float life = j<3 ? 2.0f : 1.0f;
